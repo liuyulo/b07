@@ -2,6 +2,7 @@
   "project_info": {
     "project_number": "133946407814",
     "project_id": "cscb07f22",
+    "firebase_url": "https://cscb07f22-default-rtdb.firebaseio.com/",
     "storage_bucket": "cscb07f22.appspot.com"
   },
   "client": [
