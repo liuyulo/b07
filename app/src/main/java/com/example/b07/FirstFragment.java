@@ -28,7 +28,7 @@ public class FirstFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // read listener
-        DatabaseReference courses  = FirebaseDatabase.getInstance().getReference("courses");
+        DatabaseReference courses = FirebaseDatabase.getInstance().getReference("courses");
         courses.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -42,15 +42,6 @@ public class FirstFragment extends Fragment {
                 Log.w("firebase", "no", error.toException());
             }
         });
-
-        // set value
-        DatabaseReference now = FirebaseDatabase.getInstance().getReference("now");
-        Date date = new Date();
-//        Calendar c = Calendar.getInstance();
-//        c.setTime(date);
-//        now.setValue(c.get(Calendar.MONTH));
-        now.setValue(date.getTime());
-
         binding = FragmentFirstBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -59,9 +50,19 @@ public class FirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.buttonFirst.setOnClickListener(
-            view1 -> NavHostFragment.findNavController(FirstFragment.this).navigate(
-                R.id.action_FirstFragment_to_SecondFragment
-            )
+            view1 -> {
+                // set value
+                DatabaseReference now = FirebaseDatabase.getInstance().getReference("now");
+                Date date = new Date();
+//                Calendar c = Calendar.getInstance();
+//                c.setTime(date);
+//                now.setValue(c.get(Calendar.MONTH));
+                Log.i("firebase", String.valueOf(date.getTime()));
+                now.setValue(date.getTime());
+                NavHostFragment.findNavController(FirstFragment.this).navigate(
+                    R.id.action_FirstFragment_to_SecondFragment
+                );
+            }
         );
     }
 
