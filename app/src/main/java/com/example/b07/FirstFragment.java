@@ -1,11 +1,11 @@
 package com.example.b07;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,7 +18,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Calendar;
 import java.util.Date;
 
 public class FirstFragment extends Fragment {
@@ -48,11 +47,25 @@ public class FirstFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // read listener and live update ui on db change
+        TextView tv = (TextView) view.findViewById(R.id.textview_first);
+        DatabaseReference now = FirebaseDatabase.getInstance().getReference("now");
+        now.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                long n = (long) snapshot.getValue();
+                Log.i("firebase", String.valueOf(n));
+                tv.setText(String.valueOf(n));
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         binding.buttonFirst.setOnClickListener(
             view1 -> {
                 // set value
-                DatabaseReference now = FirebaseDatabase.getInstance().getReference("now");
                 Date date = new Date();
 //                Calendar c = Calendar.getInstance();
 //                c.setTime(date);
