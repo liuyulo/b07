@@ -57,7 +57,6 @@ User class contains four fields in total:
     our database would change to following:
     
     '''
- 
     .
     ├── courses
     └── users/
@@ -66,5 +65,4 @@ User class contains four fields in total:
             ├── password: "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"
             ├── courses: "CSCB07,CSCB36,STAB52"
             └── privileged: "false"
-            
     '''
