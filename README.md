@@ -56,7 +56,7 @@ User class contains four fields in total:
     
     our database would change to following:
     
-    '''
+    '''sh
     .
     ├── courses
     └── users/
