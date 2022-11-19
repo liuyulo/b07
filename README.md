@@ -11,7 +11,7 @@ User class contains four fields in total:
 
 2. `String password`
  
-    A string field of hashed password via sha256.
+    A string field of *unhashed* password.
  
 3. `String [] courses`
  
