@@ -1,49 +1,32 @@
-# Yulong Liu
+**Yulong Liu**
 
-## What have you done since yesterday?
+- What have you done since yesterday?
+- What are you planning on doing today?
+- Any impediments or stumbling blocks?
+  - None
 
-## What are you planning on doing today?
+**Jiaming Lu**
 
-## Any impediments or stumbling blocks?
+- What have you done since yesterday?
+- What are you planning on doing today?
+- Any impediments or stumbling blocks?
+  - None
 
-None
+**Hansen Lin**
 
-# Jiaming Lu
+- What have you done since yesterday?
+- What are you planning on doing today?
+- Any impediments or stumbling blocks?
+  - None
 
-## What have you done since yesterday?
+**In Kim**
+- What have you done since yesterday?
+- What are you planning on doing today?
+- Any impediments or stumbling blocks?
+  - None
 
-## What are you planning on doing today?
-
-## Any impediments or stumbling blocks?
-
-None
-
-# Hansen Lin
-
-## What have you done since yesterday?
-
-## What are you planning on doing today?
-
-## Any impediments or stumbling blocks?
-
-None
-
-# In Kim
-
-## What have you done since yesterday?
-
-## What are you planning on doing today?
-
-## Any impediments or stumbling blocks?
-
-None
-
-# Leon Lee
-
-## What have you done since yesterday?
-
-## What are you planning on doing today?
-
-## Any impediments or stumbling blocks?
-
-None
+**Leon Lee**
+- What have you done since yesterday?
+- What are you planning on doing today?
+- Any impediments or stumbling blocks?
+  - None
