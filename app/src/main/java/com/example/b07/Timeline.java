@@ -64,7 +64,7 @@ public class Timeline{
      * Generate timeline
      *
      * @param t       courses taken
-     * @param w       courses want to take ( t 鈰� w = 鈭�)
+     * @param w       courses want to take (t ⋂ w = ∅)
      * @param current the semester to start with
      * @return generated timeline
      */
@@ -74,6 +74,7 @@ public class Timeline{
         Set<Course> want = new HashSet<>(w);
 
         Set<Course> missing = new HashSet<>();
+        //This set will record necessary courses to form the timeline which missing in Set w.
         int counter = 1;
         while(counter>0) {
         	counter = 0;
@@ -86,10 +87,12 @@ public class Timeline{
         	}
         	want.addAll(missing);
         }
+        //After the loop, we added all neccessary courses into want.
         
         Map<String, Set<Course>> output = new LinkedHashMap<>();
-        // todo while(!want.isEmpty())
-        // i.e. loop until all courses are added, not just for 4 semesters
+        
+        //This loop go through courses in want and add those which can be taken in current semester
+        //Then go to next semester and repeat. Until want is empty.
         while(!want.isEmpty()){
             Set<Course> toTake = new HashSet<>();
             for(Course course : want){
