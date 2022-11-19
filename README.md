@@ -52,8 +52,8 @@ User class contains four fields in total:
        and separates them with comma.
     
     For example, when we are to push a User object with:
-    - username: Alice
-    - password: 123456
+    - username: "Alice"
+    - password: "123456"
     - courses: ["CSCB07", "CSCB36", "STAB52"]
     - privileged: false
     
