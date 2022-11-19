@@ -5,11 +5,11 @@ The brach of user class for b07 project.
 ### User
 #### Fields
 User class contains four fields in total:
-1. 'String username'
+1. '''String username'''
  
     A string field that acts as an unique identifier for each user.
 
-3. 'String password'
+2. '''String password'''
  
     A string field of hashed password via sha256.
  
