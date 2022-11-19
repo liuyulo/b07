@@ -45,7 +45,7 @@ public final class User extends AppCompatActivity {
         this.privileged = privileged;
     }
 
-    boolean isUserExists(String username) {
+    public boolean isUserExists(String username) {
         DatabaseReference UserReference = FirebaseDatabase.getInstance().getReference().child("users");
 
         return
