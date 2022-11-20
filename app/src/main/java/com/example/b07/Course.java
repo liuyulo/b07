@@ -26,12 +26,20 @@ public class Course {
     public Set<Course> prereqs;
     public static Map<String, Course> cache = new HashMap<>();
 
-    public Course(String code, Set<Session> sessions, Set<Course> prereqs) {
+    // todo set this to private when firebase is populated
+    // then use `Course.from` in `Timeline.java`
+    Course(String code, Set<Session> sessions, Set<Course> prereqs) {
         this.code = code;
         this.sessions = sessions;
         this.prereqs = prereqs;
     }
 
+
+    /**
+     * Get course from the database (or cache)
+     * @param code course code (case insensitive)
+     * @return Course
+     */
     public static Course from(String code) {
         // firebase contains code in lowercase
         code = code.toLowerCase(Locale.ROOT);
