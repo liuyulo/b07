@@ -33,8 +33,11 @@ public class Course {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.i("sessions", "updating sessions");
                 for(DataSnapshot child: snapshot.child("sessions").getChildren()) {
-                    sessions.add(child.getValue(String.class));
+                    String s = child.getValue(String.class);
+                    sessions.add(s);
+                    Log.i("sessions", s);
                 }
             }
             @Override
@@ -47,8 +50,11 @@ public class Course {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.i("prereqs", "updating prereqs");
                 for(DataSnapshot child: snapshot.child("prereqs").getChildren()) {
-                    prereqs.add(child.getValue(Course.class));
+                    Course c = child.getValue(Course.class);
+                    prereqs.add(c);
+                    Log.i("prereqs", c.toString());
                 }
             }
             @Override
@@ -78,5 +84,10 @@ public class Course {
 		    hashVal = hashVal*31 + this.code.charAt(i);
 		}
         return hashVal;
+    }
+
+    @Override
+    public String toString() {
+        return "Course: code - " + this.code;
     }
 }
