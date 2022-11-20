@@ -20,14 +20,13 @@ public class Course {
     public String code;
     public Set<String> sessions;
     public Set<Course> prereqs;
-    private DatabaseReference mDatabase;
 
     public Course(String code) {
         // Setting up the data fields
         this.code = code;
-        this.sessions = new HashSet<String>();
-        this.prereqs = new HashSet<Course>();
-        mDatabase = FirebaseDatabase.getInstance().getReference("courses");
+        this.sessions = new HashSet<>();
+        this.prereqs = new HashSet<>();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("courses");
 
         // Getting the course's sessions from Firewall and updating the field
         mDatabase.addValueEventListener(new ValueEventListener() {
