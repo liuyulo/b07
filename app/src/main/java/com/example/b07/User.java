@@ -35,10 +35,10 @@ public final class User extends AppCompatActivity {
 
     public String username;
     private String password;
-    public String [] courses;
+    public String[] courses;
     public boolean privileged;
 
-    private User(String username, String password, String [] courses, boolean privileged){
+    private User(String username, String password, String[] courses, boolean privileged) {
         this.username = username;
         this.password = password;
         this.courses = courses;
@@ -47,8 +47,7 @@ public final class User extends AppCompatActivity {
 
     public boolean isUserExists(String username) {
         DatabaseReference UserReference = FirebaseDatabase.getInstance().getReference().child("users");
-
-        return
+        return false;
     }
 
 
@@ -64,7 +63,7 @@ public final class User extends AppCompatActivity {
 
             if (desiredPassword.equals(hash.toString())) {
 
-                user = new User(username, password, );
+//                user = new User(username, password, );
             }
         }
 
@@ -88,7 +87,7 @@ public final class User extends AppCompatActivity {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
 
-        UserReference.
+//        UserReference.
 
         return user;
     }
