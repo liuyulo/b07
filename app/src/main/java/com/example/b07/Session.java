@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-enum Session {
+public enum Session {
     WINTER("Winter"), SUMMER("Summer"), FALL("Fall");
     // for debugging
     static final Set<Session> FW = new HashSet<>(Arrays.asList(Session.FALL, Session.WINTER));

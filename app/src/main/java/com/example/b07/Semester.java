@@ -1,6 +1,8 @@
 package com.example.b07;
 
-class Semester {
+import androidx.annotation.NonNull;
+
+public class Semester {
     int year;
     Session session;
 
@@ -17,6 +19,7 @@ class Semester {
         };
     }
 
+    @NonNull
     @Override
     public String toString() {
         return year + " " + session;
