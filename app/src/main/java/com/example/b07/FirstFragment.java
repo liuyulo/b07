@@ -48,7 +48,7 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // read listener and live update ui on db change
-        TextView tv = (TextView) view.findViewById(R.id.textview_first);
+        TextView tv = view.findViewById(R.id.textview_first);
         DatabaseReference now = FirebaseDatabase.getInstance().getReference("now");
         now.addValueEventListener(new ValueEventListener() {
             @Override
