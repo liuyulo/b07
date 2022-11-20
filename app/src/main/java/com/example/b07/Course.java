@@ -14,6 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -68,24 +69,15 @@ public class Course {
 
     // Overriding Equals() by comparing the two object's code field
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Course other = (Course) obj;
-        return (this.code == other.code);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return Objects.equals(code, ((Course) o).code);
     }
 
     @Override
     public int hashCode() {
-        int hashVal = 7;
-        for (int i = 0; i < this.code.length(); i++) {
-            hashVal = hashVal * 31 + this.code.charAt(i);
-        }
-        return hashVal;
+        return Objects.hash(code);
     }
 
     @NonNull
