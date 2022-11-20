@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Course {
     public String code;
@@ -33,12 +34,13 @@ public class Course {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.i("sessions", "updating sessions");
-                for(DataSnapshot child: snapshot.child("sessions").getChildren()) {
+                for (DataSnapshot child : snapshot.child("sessions").getChildren()) {
                     String s = child.getValue(String.class);
                     sessions.add(s);
                     Log.i("sessions", s);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.w("firebase", "no", error.toException());
@@ -50,12 +52,13 @@ public class Course {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.i("prereqs", "updating prereqs");
-                for(DataSnapshot child: snapshot.child("prereqs").getChildren()) {
+                for (DataSnapshot child : snapshot.child("prereqs").getChildren()) {
                     Course c = child.getValue(Course.class);
                     prereqs.add(c);
                     Log.i("prereqs", c.toString());
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.w("firebase", "no", error.toException());
@@ -79,14 +82,19 @@ public class Course {
     @Override
     public int hashCode() {
         int hashVal = 7;
-		for (int i = 0; i < this.code.length(); i++) {
-		    hashVal = hashVal*31 + this.code.charAt(i);
-		}
+        for (int i = 0; i < this.code.length(); i++) {
+            hashVal = hashVal * 31 + this.code.charAt(i);
+        }
         return hashVal;
     }
 
+    @NonNull
     @Override
     public String toString() {
-        return "Course: code - " + this.code;
+        return "Course{" +
+            "code='" + code + '\'' +
+            ", sessions=" + sessions +
+            ", prereqs=" + prereqs.stream().map(c -> c.code).collect(Collectors.toSet()) +
+            '}';
     }
 }
