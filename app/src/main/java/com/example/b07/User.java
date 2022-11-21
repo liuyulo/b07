@@ -17,16 +17,19 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public final class User {
-    private static final User instance = new User();
+    private static User instance;
     public String name;
     public boolean privileged;
     public boolean exists;
     public boolean isin;
+    private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
 
-    private User() {
+    private User(String name) {
+        this.name = name;
     }
 
     /**
@@ -50,29 +53,25 @@ public final class User {
     }
 
     public static User getInstance() {
+        // only happens when getInstance called before login/signup
+        if (instance == null) instance = new User("");
         return instance;
     }
 
     public static User login(String name, String password) {
-        User.instance.name = name;
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child(name);
+        User.instance = new User(name);
+        DatabaseReference ref = User.ref.child(name);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Object user = snapshot.getValue();
+                Object u = snapshot.getValue();
                 // check existence
-                if (user == null) {
-                    User.instance.exists = false;
-                    return;
-                }
+                if (u == null) return;
                 User.instance.exists = true;
-
                 // check password
                 String hash = snapshot.child("passwd").getValue(String.class);
-                if (!Objects.equals(sha256(password), hash)) {
-                    User.instance.isin = false;
-                    return;
-                }
+                if (!Objects.equals(sha256(password), hash)) return;
+
                 User.instance.isin = true;
                 User.instance.privileged = Boolean.TRUE.equals(snapshot.child("privileged").getValue(Boolean.class));
                 Log.i("User", name + " logged in");
@@ -86,42 +85,21 @@ public final class User {
         return instance;
     }
 
+    public static User signup(String name, String password) {
+        instance = new User(name);
+        instance.exists = instance.isin = true;
+        instance.privileged = false;
+        DatabaseReference ref = User.ref.child(name);
+        ref.updateChildren(Map.of(
+            "passwd", sha256(password), "privileged", false, "courses", Map.of()
+        ));
+        return instance;
+    }
+
     @NonNull
     @Override
     public String toString() {
         return "User{name='" + name + "'" + ", privileged=" + privileged + '}';
     }
 
-    // similar to getManager
-    public static User signup(String username, String password, boolean privileged) throws NoSuchAlgorithmException {
-        /*
-        1. encrypt password to sha256
-        2. add new user to database (privileged is always false)
-        3. return the created user
-         */
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-//        boolean isUserExist = user.isUserExists(username);
-//
-//        if (isUserExist) {
-//            return null;
-//        }
-//
-//        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-//        byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-
-//        UserReference.
-
-        return null;
-    }
 }
