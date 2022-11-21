@@ -3,8 +3,6 @@ package com.example.b07;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,7 +14,6 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -38,7 +35,7 @@ public final class User {
      * @param message
      * @return
      */
-    public static String sha256(String message) {
+    private static String sha256(String message) {
         // My IDE: Unhandled exception: NoSuchAlgorithmException
         // Me: trust me bro
         try {
@@ -52,6 +49,11 @@ public final class User {
         return "";
     }
 
+    /**
+     * Please login/signup before getInstance
+     *
+     * @return
+     */
     public static User getInstance() {
         // only happens when getInstance called before login/signup
         if (instance == null) instance = new User("");
@@ -73,6 +75,7 @@ public final class User {
                 if (!Objects.equals(sha256(password), hash)) return;
 
                 User.instance.isin = true;
+                // check privileged
                 User.instance.privileged = Boolean.TRUE.equals(snapshot.child("privileged").getValue(Boolean.class));
                 Log.i("User", name + " logged in");
             }
@@ -85,6 +88,12 @@ public final class User {
         return instance;
     }
 
+    /**
+     * Sign up as student
+     * @param name
+     * @param password
+     * @return
+     */
     public static User signup(String name, String password) {
         instance = new User(name);
         instance.exists = instance.isin = true;
