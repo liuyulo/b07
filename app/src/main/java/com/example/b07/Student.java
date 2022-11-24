@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Student extends User{
     private static Student instance;
-    private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users/student");;
+    private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users/student");
 
     private Student(String name) {
         super();

@@ -67,7 +67,7 @@ public class Account {
 
     public static Account login(String name, String password) {
         Account.instance = new Account(name);
-        DatabaseReference ref = Account.ref.child(name);
+        DatabaseReference ref = Account.ref.child("admin").child(name);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
