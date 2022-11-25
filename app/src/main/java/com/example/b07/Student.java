@@ -2,12 +2,27 @@ package com.example.b07;
 
 import static com.example.b07.Account.sha256;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class Student extends User{
+    private static final String TAG = "User";
     private static Student instance;
     private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users/student");
 
@@ -37,13 +52,33 @@ public class Student extends User{
     public boolean add(Course c){
         // add course to `users[name].courses`
         // assume c is in `courses'
+        DatabaseReference cRef = ref.child(name).child("course");
+        ArrayList<String> courses= new ArrayList<String>();
+        cRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        return false;
+                // count the number of courses in the course node and insert the new course at the end
+                int cnt = 0;
+                for (DataSnapshot ds: snapshot.getChildren()) {
+                    cnt++;
+                }
+                cRef.child(String.valueOf(cnt)).setValue(c.code);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        return true;
     }
 
     @Override
     public boolean remove(Course c){
         // remove course from `users[name].courses`
+
         return false;
     }
 }

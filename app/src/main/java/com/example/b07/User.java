@@ -9,7 +9,7 @@ import java.util.Set;
 public abstract class User {
     private static User instance;
     public String name;
-    private final Set<Course> courses;
+    public Set<Course> courses;
 
     public boolean isin;
     public boolean exists;
