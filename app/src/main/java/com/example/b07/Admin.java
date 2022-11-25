@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 class Admin extends User{
+    private static final String TAG = "AdminClass";
     private static Admin instance;
     private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users/admin");
 
@@ -58,6 +59,7 @@ class Admin extends User{
                     child -> Course.from(child.getValue(String.class))
             ).collect(Collectors.toSet());
         }
+
         if (pre.isEmpty() || !pre.contains(c.code)) {
             return true;
         }
@@ -73,10 +75,38 @@ class Admin extends User{
          */
 
         final DatabaseReference cRef = FirebaseDatabase.getInstance().getReference("course");
-        cRef.updateChildren(Map.of(
-                "prereqs", c.prereqs, "sessions", c.sessions
-        ));
-        return false;
+
+        // init isin
+        Admin.instance.isin = true;
+
+        cRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d(TAG, "add: check if added course has prerequisite that is not in database");
+                for (Course prereq: c.prereqs) {
+                    // if added course has prerequisite that is not in database
+                    if (!snapshot.hasChild(prereq.code)) {
+                        Admin.instance.isin = false;
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d(TAG, "add: errors happened");
+            }
+        });
+
+        if (Admin.instance.isin) {
+            cRef.updateChildren(Map.of(
+                    "prereqs", c.prereqs, "sessions", c.sessions
+            ));
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
@@ -85,6 +115,8 @@ class Admin extends User{
         remove from `courses`
         c is prereq of other course in db => return false
          */
+
+        // init isin
         Admin.instance.isin = false;
         final DatabaseReference cRef = FirebaseDatabase.getInstance().getReference("course");
 
