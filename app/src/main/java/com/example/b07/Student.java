@@ -57,6 +57,7 @@ public class Student extends User{
         cRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d(TAG, "add: adding the course into the database");
 
                 // count the number of courses in the course node and insert the new course at the end
                 int cnt = 0;
@@ -68,7 +69,7 @@ public class Student extends User{
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.d(TAG, "add: failed to add course");
             }
         });
 
