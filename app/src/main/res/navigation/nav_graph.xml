@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/FragmentTimeline"
         android:name="com.example.b07.TimelineFragment"
-        android:label="FragmentTimeline"
+        android:label="@string/fragment_timeline_label"
         tools:layout="@layout/fragment_timeline_list" />
     <fragment
         android:id="@+id/FirstFragment"
