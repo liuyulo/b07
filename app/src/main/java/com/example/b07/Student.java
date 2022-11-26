@@ -24,12 +24,13 @@ import java.util.stream.StreamSupport;
 public class Student extends User{
     private static final String TAG = "User";
     private static Student instance;
-    private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users/student");
+    private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
 
     private Student(String name) {
         super();
         this.name = name;
         this.privileged = false;
+        super.listen();
     }
 
     public static Student getInstance(){
@@ -38,7 +39,6 @@ public class Student extends User{
     }
 
     /**
-     *
      * @param name
      * @param password
      * @return Student typed instance

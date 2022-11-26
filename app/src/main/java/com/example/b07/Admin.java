@@ -25,12 +25,13 @@ import java.util.stream.StreamSupport;
 class Admin extends User{
     private static final String TAG = "AdminClass";
     private static Admin instance;
-    private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users/admin");
+    private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
 
     private Admin(String name) {
         super();
         this.name = name;
         this.privileged = true;
+        super.listen();
     }
 
     public static Admin getInstance(){
@@ -109,6 +110,12 @@ class Admin extends User{
         }
     }
 
+    /**
+     *
+     * @param c
+     * @return true if and only if course is not prereq of other course in database and is
+     *                  successfully removed
+     */
     @Override
     public boolean remove(Course c){
         /*
