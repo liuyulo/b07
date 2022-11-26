@@ -21,26 +21,17 @@ public abstract class User {
     protected static User instance;
     public String name;
     public Set<Course> courses;
+    protected DatabaseReference ref;
 
     public boolean isin;
     public boolean exists;
     public boolean privileged;
 
-    public User() {
-        courses = new HashSet<>();
-        this.listen();
-    }
-
-    /**
-     * Listen for realtime update for user file
-     */
-    protected void listen() {
-        // check if user exists
-        if (instance == null) return;
-        // assumed user with the username exists in our database
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(name);
-
-        ref.addValueEventListener(new ValueEventListener() {
+    public User(String name) {
+        this.courses = new HashSet<>();
+        this.ref = FirebaseDatabase.getInstance().getReference().child("users").child(name);
+        this.name = name;
+        this.ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d(TAG, "listen: starting to update user data");
@@ -50,9 +41,6 @@ public abstract class User {
                 if (courses.exists()) {
                     Log.d(TAG, "listen: updating User.courses");
                     Spliterator<DataSnapshot> iter = courses.getChildren().spliterator();
-                    // init the local course list
-                    User.instance.courses.clear();
-
                     // recursively add courses to cache
                     User.instance.courses = StreamSupport.stream(iter, false).map(
                         child -> Course.from(child.getValue(String.class))
@@ -74,6 +62,15 @@ public abstract class User {
                 Log.d(TAG, "listen: update unsuccessful, error(s) happened");
             }
         });
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "User{" +
+            "name='" + name + '\'' +
+            ", courses=" + courses +
+            '}';
     }
 
     public abstract boolean add(Course c);
