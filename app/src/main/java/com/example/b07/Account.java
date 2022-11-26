@@ -18,21 +18,11 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Account {
-    private static Account instance;
-    public String name;
-    public boolean privileged;
-    public boolean exists;
-    public boolean isin;
+    public static String name;
+    public static boolean privileged;
+    public static boolean exists;
+    public static boolean isin;
     private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
-
-    private Account(String name) {
-        this.name = name;
-    }
-
-    private Account(String name, boolean privileged) {
-        this.name = name;
-        this.privileged = privileged;
-    }
 
     /**
      * Encrypt to sha256
@@ -54,19 +44,8 @@ public class Account {
         return "";
     }
 
-    /**
-     * Please login/signup before getInstance
-     *
-     * @return
-     */
-    public static Account getInstance() {
-        // only happens when getInstance called before login/signup
-        if (instance == null) instance = new Account("", false);
-        return instance;
-    }
-
-    public static Account login(String name, String password) {
-        Account.instance = new Account(name);
+    public static void login(String name, String password) {
+        Account.name = name;
         DatabaseReference ref = Account.ref.child("admin").child(name);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -74,14 +53,14 @@ public class Account {
                 Object u = snapshot.getValue();
                 // check existence
                 if (u == null) return;
-                Account.instance.exists = true;
+                Account.exists = true;
                 // check password
                 String hash = snapshot.child("passwd").getValue(String.class);
                 if (!Objects.equals(sha256(password), hash)) return;
 
-                Account.instance.isin = true;
+                Account.isin = true;
                 // check privileged
-                Account.instance.privileged = Boolean.TRUE.equals(snapshot.child("privileged").getValue(Boolean.class));
+                Account.privileged = Boolean.TRUE.equals(snapshot.child("privileged").getValue(Boolean.class));
                 Log.i("Account", name + " logged in");
             }
 
@@ -90,7 +69,6 @@ public class Account {
                 Log.w("Account", "login cancelled");
             }
         });
-        return instance;
     }
 
     /**
@@ -100,15 +78,14 @@ public class Account {
      * @param password
      * @return
      */
-    public static Account signup(String name, String password) {
-        instance = new Account(name);
-        instance.exists = instance.isin = true;
-        instance.privileged = false;
+    public static void signup(String name, String password) {
+        Account.name = name;
+        Account.exists = Account.isin = true;
+        Account.privileged = false;
         DatabaseReference ref = Account.ref.child(name);
         ref.updateChildren(Map.of(
             "passwd", sha256(password), "privileged", false, "courses", Map.of()
         ));
-        return instance;
     }
 
     @NonNull

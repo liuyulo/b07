@@ -12,39 +12,55 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-class Admin extends User{
-    private static final String TAG = "AdminClass";
-    private static Admin instance;
-    private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
+class Admin extends User {
+    private static final String TAG = "Admin";
+    private static final DatabaseReference cref = FirebaseDatabase.getInstance().getReference("courses");
 
     private Admin(String name) {
-        super();
-        this.name = name;
-        this.privileged = true;
-        super.listen();
+        super(name);
     }
 
-    public static Admin getInstance(){
-        if(instance == null) instance = new Admin("");
-        return instance;
+    @Override
+    protected void listen() {
+        cref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d(TAG, "update Admin courses");
+
+                // update course list for user
+                if (snapshot.exists()) {
+                    Spliterator<DataSnapshot> iter = snapshot.getChildren().spliterator();
+                    // recursively add courses to cache
+                    User.instance.courses = StreamSupport.stream(iter, false).map(
+                        child -> Course.from(child.getKey())
+                    ).collect(Collectors.toSet());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d(TAG, "listen: update unsuccessful, error(s) happened");
+            }
+        });
     }
 
-    public static Admin signup(String name, String password){
-        instance = new Admin(name);
-        instance.exists = instance.isin = true;
-        instance.privileged = false;
-        DatabaseReference ref = Admin.ref.child(name);
-        ref.updateChildren(Map.of(
-                "passwd", sha256(password), "privileged", false, "courses", Map.of()
-        ));
-        return instance;
+    public static Admin getInstance() {
+        // if new account has been created/modified
+        if (instance == null || !Objects.equals(instance.name, Account.name)) {
+            instance = new Admin(Account.name);
+        }
+        return (Admin) instance;
     }
+
 
     private boolean isprereq(Course c, DataSnapshot ds) {
         DataSnapshot prereqs = ds.child("prereqs");
@@ -53,7 +69,7 @@ class Admin extends User{
             Spliterator<DataSnapshot> iter = ds.child("prereqs").getChildren().spliterator();
             // recursively add courses to cache
             pre = StreamSupport.stream(iter, false).map(
-                    child -> Course.from(child.getValue(String.class))
+                child -> Course.from(child.getValue(String.class))
             ).collect(Collectors.toSet());
         }
 
@@ -64,90 +80,34 @@ class Admin extends User{
         return false;
     }
 
+    /**
+     * @param course
+     * @return false if course has prereqs not in db ohr course already in db
+     */
     @Override
-    public boolean add(Course c){
-        /*
-        add course to `courses`
-        c has prereq that is not in db => return false
-         */
-
-        final DatabaseReference cRef = FirebaseDatabase.getInstance().getReference("course");
-
-        // init isin
-        Admin.instance.isin = true;
-
-        cRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d(TAG, "add: check if added course has prerequisite that is not in database");
-                for (Course prereq: c.prereqs) {
-                    // if added course has prerequisite that is not in database
-                    if (!snapshot.hasChild(prereq.code)) {
-                        Admin.instance.isin = false;
-                        return;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d(TAG, "add: errors happened");
-            }
-        });
-
-        if (Admin.instance.isin) {
-            cRef.updateChildren(Map.of(
-                    "prereqs", c.prereqs, "sessions", c.sessions
-            ));
-            return true;
-        }
-        else {
-            return false;
-        }
+    public boolean add(Course course) {
+        if (courses.contains(course) || !courses.containsAll(course.prereqs)) return false;
+        cref.child(course.code).updateChildren(Map.of(
+            "prereqs", course.prereqs.stream().map(c -> c.code).collect(Collectors.toList()),
+            "sessions", course.sessions.stream().map(Session::toString).collect(Collectors.toList())
+        ));
+        Log.d(TAG, "add " + course);
+        return courses.add(course); // i.e. return true
     }
 
     /**
-     *
-     * @param c
+     * @param course
      * @return true if and only if course is not prereq of other course in database and is
-     *                  successfully removed
+     * successfully removed
      */
     @Override
-    public boolean remove(Course c){
-        /*
-        remove from `courses`
-        c is prereq of other course in db => return false
-         */
-
-        // init isin
-        Admin.instance.isin = false;
-        final DatabaseReference cRef = FirebaseDatabase.getInstance().getReference("course");
-
-        // check if course is a prerequisite of other course
-        cRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds: snapshot.getChildren()) {
-                    if (isprereq(c, ds)) {
-                        Admin.instance.isin = true;
-                        return;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w("Course", "Admin.remove(): errors happened", error.toException());
-            }
-        });
-
-        if (Admin.instance.isin) {
+    public boolean remove(Course course) {
+        // course is prereq of other course in db => return false
+        if (!courses.contains(course) || courses.stream().anyMatch(c -> course.prereqs.contains(c))) {
             return false;
         }
-        else {
-            cRef.child(c.code).removeValue();
-            return true;
-        }
-
+        Log.d(TAG, "remove " + course);
+        cref.child(course.code).removeValue();
+        return courses.remove(course);
     }
 }

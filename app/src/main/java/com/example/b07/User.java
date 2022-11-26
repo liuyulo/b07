@@ -28,52 +28,25 @@ public abstract class User {
     public boolean privileged;
 
     public User(String name) {
-        this.courses = new HashSet<>();
-        this.ref = FirebaseDatabase.getInstance().getReference().child("users").child(name);
         this.name = name;
-        this.ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d(TAG, "listen: starting to update user data");
-
-                // update course list for user
-                DataSnapshot courses = snapshot.child("course");
-                if (courses.exists()) {
-                    Log.d(TAG, "listen: updating User.courses");
-                    Spliterator<DataSnapshot> iter = courses.getChildren().spliterator();
-                    // recursively add courses to cache
-                    User.instance.courses = StreamSupport.stream(iter, false).map(
-                        child -> Course.from(child.getValue(String.class))
-                    ).collect(Collectors.toSet());
-                }
-
-                // hash function is non-invertible so unable to track the change of change of passwd
-
-                // update privileged field for user
-                DataSnapshot privileged = snapshot.child("privilege");
-                if (privileged.exists()) {
-                    Log.d(TAG, "listen: updating User.privileged");
-                    User.instance.privileged = Boolean.TRUE.equals(privileged.getValue(Boolean.class));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d(TAG, "listen: update unsuccessful, error(s) happened");
-            }
-        });
+        this.ref = FirebaseDatabase.getInstance().getReference().child("users").child(name);
+        this.courses = new HashSet<>();
+        this.listen();
     }
+
+    /**
+     * listen to courses in firebase
+     */
+    protected abstract void listen();
 
     @NonNull
     @Override
     public String toString() {
-        return "User{" +
-            "name='" + name + '\'' +
-            ", courses=" + courses +
-            '}';
+        return "User{name='" + name + '\'' + ", courses=" + courses + '}';
     }
 
-    public abstract boolean add(Course c);
 
-    public abstract boolean remove(Course c);
+    public abstract boolean add(Course course);
+
+    public abstract boolean remove(Course course);
 }
