@@ -23,21 +23,16 @@ public abstract class User {
     public Set<Course> courses;
     protected DatabaseReference ref;
 
-    public boolean isin;
-    public boolean exists;
-    public boolean privileged;
-
     public User(String name) {
         this.name = name;
         this.ref = FirebaseDatabase.getInstance().getReference().child("users").child(name);
         this.courses = new HashSet<>();
-        this.listen();
     }
 
     /**
      * listen to courses in firebase
      */
-    protected abstract void listen();
+    protected void listen(){}
 
     @NonNull
     @Override
