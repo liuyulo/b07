@@ -18,7 +18,7 @@ import java.util.stream.StreamSupport;
 
 public abstract class User {
     private static final String TAG = "User";
-    private static User instance;
+    protected static User instance;
     public String name;
     public Set<Course> courses;
 
@@ -40,7 +40,7 @@ public abstract class User {
         // assumed user with the username exists in our database
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(name);
 
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d(TAG, "listen: starting to update user data");
@@ -65,7 +65,7 @@ public abstract class User {
                 DataSnapshot privileged = snapshot.child("privilege");
                 if (privileged.exists()) {
                     Log.d(TAG, "listen: updating User.privileged");
-                    User.instance.privileged = privileged.getValue(Boolean.class);
+                    User.instance.privileged = Boolean.TRUE.equals(privileged.getValue(Boolean.class));
                 }
             }
 
