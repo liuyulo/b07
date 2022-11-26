@@ -21,7 +21,7 @@ import java.util.Spliterator;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class Student extends User{
+public class Student extends User {
     private static final String TAG = "User";
     private static Student instance;
     private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
@@ -33,8 +33,8 @@ public class Student extends User{
         super.listen();
     }
 
-    public static Student getInstance(){
-        if(instance == null) instance = new Student("");
+    public static Student getInstance() {
+        if (instance == null) instance = new Student("");
         return instance;
     }
 
@@ -43,13 +43,13 @@ public class Student extends User{
      * @param password
      * @return Student typed instance
      */
-    public static Student signup(String name, String password){
+    public static Student signup(String name, String password) {
         instance = new Student(name);
         instance.exists = instance.isin = true;
         instance.privileged = false;
         DatabaseReference ref = Student.ref.child(name);
         ref.updateChildren(Map.of(
-                "passwd", sha256(password), "privileged", false, "courses", Map.of()
+            "passwd", sha256(password), "privileged", false, "courses", Map.of()
         ));
         return instance;
     }
@@ -57,15 +57,16 @@ public class Student extends User{
     /**
      * add course c to "users/student/name/course"
      * Precondition: c is in 'courses'
+     *
      * @param c
      * @return true if and only course does not exists and succesfully added
      */
     @Override
-    public boolean add(Course c){
+    public boolean add(Course c) {
         //init isin to check if course already exists
         Student.instance.isin = false;
         DatabaseReference cRef = ref.child(name).child("course");
-        ArrayList<String> courses= new ArrayList<String>();
+        ArrayList<String> courses = new ArrayList<String>();
         cRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -73,7 +74,7 @@ public class Student extends User{
 
                 // count the number of courses in the course node and insert the new course at the end
                 int cnt = 0;
-                for (DataSnapshot ds: snapshot.getChildren()) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     if (ds.child(String.valueOf(cnt)).getChildren().toString().equals(c.code)) {
                         Log.d(TAG, "add: course already exists, updating unsuccessful");
                         Student.instance.isin = true;
@@ -96,19 +97,19 @@ public class Student extends User{
         Log.d(TAG, "add: quitting the method");
         if (Student.instance.isin) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     /**
      * remove course from "users/student/course"
+     *
      * @param c
      * @return true if and only if course c is in the list of courses and is successfully removed
      */
     @Override
-    public boolean remove(Course c){
+    public boolean remove(Course c) {
         // remove course from `users[name].courses`
         Student.instance.isin = false;
         ArrayList<String> courses = new ArrayList<String>();
@@ -119,11 +120,11 @@ public class Student extends User{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d(TAG, "remove: trying to remove from the database");
                 int cnt = 0;
-                for (DataSnapshot ds: snapshot.getChildren()) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     String code = ds.getValue().toString();
                     // if found the course then skip it, dont add it into the list of courses
                     if (code.equals(c.code)) {
-                        Log.d(TAG,"remove: remove successful");
+                        Log.d(TAG, "remove: remove successful");
                         Student.instance.isin = true;
                         continue;
                     }
@@ -153,8 +154,7 @@ public class Student extends User{
         Log.d(TAG, "remove: quitting the method");
         if (Student.instance.isin) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

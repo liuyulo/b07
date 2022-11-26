@@ -55,7 +55,7 @@ public abstract class User {
 
                         // recursively add courses to cache
                         User.instance.courses = StreamSupport.stream(iter, false).map(
-                                child -> Course.from(child.getValue(String.class))
+                            child -> Course.from(child.getValue(String.class))
                         ).collect(Collectors.toSet());
                     }
 
@@ -75,10 +75,9 @@ public abstract class User {
                 }
             });
         }
-
-        return;
     }
 
     public abstract boolean add(Course c);
+
     public abstract boolean remove(Course c);
 }

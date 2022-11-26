@@ -95,6 +95,7 @@ public class Account {
 
     /**
      * Sign up as student
+     *
      * @param name
      * @param password
      * @return
