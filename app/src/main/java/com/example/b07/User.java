@@ -29,11 +29,6 @@ public abstract class User {
         this.courses = new HashSet<>();
     }
 
-    /**
-     * listen to courses in firebase
-     */
-    protected void listen(){}
-
     @NonNull
     @Override
     public String toString() {
