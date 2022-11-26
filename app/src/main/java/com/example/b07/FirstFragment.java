@@ -32,30 +32,11 @@ public class FirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         User u = User.login("admin", "password");
         TextView tv = (TextView) view.findViewById(R.id.textview_first);
-        DatabaseReference user = FirebaseDatabase.getInstance().getReference("users");
         if (u == null) {
             tv.setText("User not found");
         } else {
             tv.setText(u.name);
         }
-
-        /*
-        user.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User u1 = (User) snapshot;
-                if (u == null) {
-
-                } else {
-                    tv.setText(u.name);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Add log when refactoring for warning
-            }
-        });
 
         binding.buttonFirst.setOnClickListener(
                 view1 -> {
@@ -64,7 +45,6 @@ public class FirstFragment extends Fragment {
                     );
                 }
         );
-         */
     }
 
     @Override
