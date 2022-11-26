@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.b07.databinding.FragmentFirstBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -32,13 +33,21 @@ public class FirstFragment extends Fragment {
         User u = User.login("admin", "password");
         TextView tv = (TextView) view.findViewById(R.id.textview_first);
         DatabaseReference user = FirebaseDatabase.getInstance().getReference("users");
+        if (u == null) {
+            tv.setText("User not found");
+        } else {
+            tv.setText(u.name);
+        }
+
+        /*
         user.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User u1 = (User) snapshot;
                 if (u == null) {
-                    tv.setText("User not found");
+
                 } else {
-                    tv.setText(u.toString());
+                    tv.setText(u.name);
                 }
             }
 
@@ -48,33 +57,14 @@ public class FirstFragment extends Fragment {
             }
         });
 
-
-        //TextView.setText
-
-        /*
-        
         binding.buttonFirst.setOnClickListener(
-            view1 -> {
-                // set value
-                Date date = new Date();
-//                Calendar c = Calendar.getInstance();
-//                c.setTime(date);
-//                now.setValue(c.get(Calendar.MONTH));
-                Log.i("firebase", String.valueOf(date.getTime()));
-                now.setValue(date.getTime());
-                NavHostFragment.findNavController(FirstFragment.this).navigate(
-                    R.id.action_FirstFragment_to_SecondFragment
-                );
-            }
+                view1 -> {
+                    NavHostFragment.findNavController(FirstFragment.this).navigate(
+                            R.id.action_FirstFragment_to_SecondFragment
+                    );
+                }
         );
          */
-
-        view.findViewById(R.id.test).setOnClickListener(v -> {
-
-
-            // test your features here
-            // and click the TEST button to trigger
-        });
     }
 
     @Override
