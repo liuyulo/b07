@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -53,6 +54,18 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // check username and password validity
@@ -85,7 +98,7 @@ public class LoginFragment extends Fragment {
             return false;
         });
 
-        b.asStudent.setOnClickListener(v -> login("student", "student"));
+        b.asStudent.setOnClickListener(v -> login("student", "password"));
         b.asAdmin.setOnClickListener(v -> login("admin", "password"));
         b.login.setOnClickListener(v -> login(username(), password()));
         b.register.setOnClickListener(v -> register(username(), password()));
