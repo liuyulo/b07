@@ -36,7 +36,7 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        Account.login("student", "student");
-        Account.login("admin", "password");
+//        Account.login("admin", "password");
         User u = Admin.getInstance();
         TextView t = view.findViewById(R.id.textview_first);
         // see values/strings.xml
