@@ -14,4 +14,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="todo">TODO</string>
+    <string name="generate_timetable">GENERATE TIMETABLE</string>
+    <string name="course_wishlist">COURSE WISHLIST</string>
+    <string name="courses_taken">COURSES TAKEN</string>
 </resources>
