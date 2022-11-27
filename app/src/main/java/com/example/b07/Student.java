@@ -21,14 +21,32 @@ import java.util.stream.StreamSupport;
 
 public class Student extends User {
     private static final String TAG = "Student";
-    public final Set<Course> wishlist = new HashSet<>();
+    protected Set<Course> wants = new HashSet<>();
+    private static final String TAKEN = "taken";
+    private static final String WANTS = "wants";
 
     private Student(String name) {
         super(name);
-        ref.child("courses").addValueEventListener(new ValueEventListener() {
+        ref.child(WANTS).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d(TAG, "Student courses changed");
+                // update course list for user
+                Spliterator<DataSnapshot> iter = snapshot.getChildren().spliterator();
+                // recursively add courses to cache
+                Student.getInstance().wants = StreamSupport.stream(iter, false).map(
+                    child -> Course.from(child.getValue(String.class))
+                ).collect(Collectors.toSet());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        ref.child(TAKEN).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d(TAG, "Student taken changed");
                 // update course list for user
                 Spliterator<DataSnapshot> iter = snapshot.getChildren().spliterator();
                 // recursively add courses to cache
@@ -52,8 +70,16 @@ public class Student extends User {
         return (Student) instance;
     }
 
-    protected void update(Set<Course> courses) {
-        ref.updateChildren(Map.of("courses", courses.stream().map(c -> c.code).collect(Collectors.toList())));
+    private List<String> codes(Set<Course> courses) {
+        return courses.stream().map(c -> c.code).collect(Collectors.toList());
+    }
+
+    private void updateTaken(Set<Course> courses) {
+        ref.updateChildren(Map.of(TAKEN, codes(courses)));
+    }
+
+    private void updateWants(Set<Course> courses) {
+        ref.updateChildren(Map.of(WANTS, codes(courses)));
     }
 
     public static Map<String, Set<Course>> timeline(Set<Course> taken, Set<Course> want, Semester current) {
@@ -94,21 +120,30 @@ public class Student extends User {
      * generate timeline
      */
     public Map<String, Set<Course>> timeline(Semester current) {
-        return Student.timeline(courses, wishlist, current);
+        return Student.timeline(courses, wants, current);
     }
 
     /**
      * add course to wish list
      */
     public boolean want(Course course) {
-        return wishlist.add(course);
+        if (wants.contains(course)) return false;
+        updateWants(Stream.concat(wants.stream(), Stream.of(course)).collect(Collectors.toSet()));
+        return true;
+    }
+
+    public boolean unwant(Course course) {
+        // remove course from db
+        if (!wants.contains(course)) return false;
+        updateTaken(wants.stream().filter(c -> !c.equals(course)).collect(Collectors.toSet()));
+        return true;
     }
 
     @Override
     public boolean add(Course course) {
         // add course to db
         if (courses.contains(course)) return false;
-        update(Stream.concat(courses.stream(), Stream.of(course)).collect(Collectors.toSet()));
+        updateTaken(Stream.concat(courses.stream(), Stream.of(course)).collect(Collectors.toSet()));
         return true;
     }
 
@@ -116,7 +151,7 @@ public class Student extends User {
     public boolean remove(Course course) {
         // remove course from db
         if (!courses.contains(course)) return false;
-        update(courses.stream().filter(c -> !c.equals(course)).collect(Collectors.toSet()));
+        updateTaken(courses.stream().filter(c -> !c.equals(course)).collect(Collectors.toSet()));
         return true;
     }
 

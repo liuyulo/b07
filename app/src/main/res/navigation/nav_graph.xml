@@ -7,6 +7,7 @@
     <fragment
         android:id="@+id/LoginFragment"
         android:name="com.example.b07.LoginFragment"
+        android:label="Login"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_Login_to_Student"
@@ -16,13 +17,18 @@
     <fragment
         android:id="@+id/TimelineFragment"
         android:name="com.example.b07.TimelineFragment"
-        android:label="@string/fragment_timeline_label"
+        android:label="Timeline"
         tools:layout="@layout/fragment_timeline_list" />
+
     <fragment
         android:id="@+id/StudentFragment"
-        android:name="com.example.b07.StudentView"
+        android:name="com.example.b07.StudentFragment"
         android:label="Student View"
-        tools:layout="@layout/fragment_student_view" />
+        tools:layout="@layout/fragment_student">
+        <action
+            android:id="@+id/action_Student_to_Timeline"
+            app:destination="@id/TimelineFragment" />
+    </fragment>
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.example.b07.FirstFragment"

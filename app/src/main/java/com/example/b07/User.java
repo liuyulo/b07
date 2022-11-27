@@ -11,8 +11,8 @@ import java.util.Set;
 public abstract class User {
     private static final String TAG = "User";
     protected static User instance;
-    public String name;
-    public Set<Course> courses;
+    protected String name;
+    protected Set<Course> courses;
     protected DatabaseReference ref;
 
     public User(String name) {
