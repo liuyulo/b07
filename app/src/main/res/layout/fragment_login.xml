@@ -5,10 +5,10 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".LoginFragment">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/login_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/login_page_background" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_uoft"
         android:layout_width="369dp"
         android:layout_height="48dp"
         android:layout_marginTop="40dp"
@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/text_planner"
         android:layout_width="369dp"
         android:layout_height="48dp"
         android:fontFamily="@font/ubuntu_bold"
@@ -46,7 +46,7 @@
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/text_uoft" />
 
     <ImageView
         android:id="@+id/coa"
@@ -136,5 +136,4 @@
         app:layout_constraintStart_toEndOf="@+id/login"
         app:layout_constraintTop_toBottomOf="@+id/register"
         app:layout_constraintVertical_bias="0.0" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

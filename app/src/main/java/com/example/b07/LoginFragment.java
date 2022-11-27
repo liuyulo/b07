@@ -1,18 +1,22 @@
 package com.example.b07;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.b07.databinding.ActivityLoginBinding;
+import com.example.b07.databinding.FragmentLoginBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,31 +30,31 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Objects;
 
-final class U {
-    final String username;
-    final String password;
-
-    public U(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-}
-
-public class LoginActivity extends AppCompatActivity {
+public class LoginFragment extends Fragment {
 
     public static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
 
-    private U user(ActivityLoginBinding b) {
-        String username = b.username.getText().toString();
-        String password = b.password.getText().toString();
-        return new U(username, password);
+    private FragmentLoginBinding b;
+
+    private String username() {
+        return b.username.getText().toString();
+    }
+
+    private String password() {
+        return b.password.getText().toString();
+    }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        b = FragmentLoginBinding.inflate(inflater, container, false);
+        return b.getRoot();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ActivityLoginBinding b = ActivityLoginBinding.inflate(getLayoutInflater());
-        setContentView(b.getRoot());
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         // check username and password validity
         TextWatcher callback = new TextWatcher() {
             @Override
@@ -63,9 +67,8 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                U u = user(b);
-                String name = checkUsername(u.username);
-                String pass = checkPassword(u.password);
+                String name = checkUsername(username());
+                String pass = checkPassword(password());
                 boolean enabled = name == null && pass == null;
                 if (name != null) b.username.setError(name);
                 if (pass != null) b.password.setError(pass);
@@ -77,28 +80,22 @@ public class LoginActivity extends AppCompatActivity {
         b.password.addTextChangedListener(callback);
         b.password.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                U u = user(b);
-                login(u.username, u.password);
+                login(username(), password());
             }
             return false;
         });
 
         b.asStudent.setOnClickListener(v -> login("student", "student"));
         b.asAdmin.setOnClickListener(v -> login("admin", "password"));
-        b.login.setOnClickListener(v -> {
-            U u = user(b);
-            login(u.username, u.password);
-        });
-        b.register.setOnClickListener(v -> {
-            U u = user(b);
-            register(u.username, u.password);
-        });
+        b.login.setOnClickListener(v -> login(username(), password()));
+        b.register.setOnClickListener(v -> register(username(), password()));
     }
+
 
     private String checkPassword(String password) {
         final int n = 8;
-        if (password.length() <= n) {
-            return "Password must be over " + n + " characters";
+        if (password.length() < n) {
+            return "Password must be at least " + n + " characters";
         }
         return null;
     }
@@ -116,9 +113,6 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Encrypt to sha256
-     *
-     * @param message
-     * @return
      */
     public static String sha256(String message) {
         // My IDE: Unhandled exception: NoSuchAlgorithmException
@@ -135,25 +129,27 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * welcome user to MainActivity
-     *
-     * @param name
+     * welcome user to the next fragment
      */
     public void welcome(String name) {
-        Context context = getApplicationContext();
+        Context context = getContext();
         Toast.makeText(context, "Welcome " + name + "!", Toast.LENGTH_SHORT).show();
         // go to main activity
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        if (!Account.privileged) {
+            NavHostFragment.findNavController(LoginFragment.this).navigate(
+                R.id.action_Login_to_Student
+            );
+        }
     }
 
     public void login(String name, String password) {
         Account.name = name;
-        DatabaseReference ref = LoginActivity.ref.child(name);
+        DatabaseReference ref = LoginFragment.ref.child(name);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Object u = snapshot.getValue();
-                Context context = getApplicationContext();
+                Context context = getContext();
                 // check existence
                 if (u == null) {
                     String dne = "User " + name + " does not exist!";
@@ -182,21 +178,17 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Sign up as student
-     *
-     * @param name
-     * @param password
-     * @return
      */
     public void register(String name, String password) {
         Account.name = name;
         Account.privileged = false;
-        DatabaseReference ref = LoginActivity.ref.child(name);
+        DatabaseReference ref = LoginFragment.ref.child(name);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     String dne = "User " + name + " already exists!";
-                    Toast.makeText(getApplicationContext(), dne, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), dne, Toast.LENGTH_LONG).show();
                     return;
                 }
                 ref.updateChildren(Map.of(
@@ -209,5 +201,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        b = null;
     }
 }
