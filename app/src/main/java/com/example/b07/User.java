@@ -1,26 +1,18 @@
 package com.example.b07;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Spliterator;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 public abstract class User {
     private static final String TAG = "User";
     protected static User instance;
-    public String name;
-    public Set<Course> courses;
+    protected String name;
+    protected Set<Course> courses;
     protected DatabaseReference ref;
 
     public User(String name) {
