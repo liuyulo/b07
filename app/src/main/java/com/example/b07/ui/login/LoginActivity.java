@@ -55,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
-        final ProgressBar loadingProgressBar = binding.loading;
 
         loginViewModel.getLoginFormState().observe(this, state -> {
             if (state == null) {
@@ -74,7 +73,6 @@ public class LoginActivity extends AppCompatActivity {
             if (res == null) {
                 return;
             }
-            loadingProgressBar.setVisibility(View.GONE);
             if (res.getError() != null) {
                 showLoginFailed(res.getError());
             }
@@ -115,7 +113,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         loginButton.setOnClickListener(v -> {
-            loadingProgressBar.setVisibility(View.VISIBLE);
 
             String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
