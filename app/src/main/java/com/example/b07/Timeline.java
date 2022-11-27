@@ -3,7 +3,7 @@ package com.example.b07;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Timeline{
+public class Timeline {
     /**
      * Generate timeline
      *
@@ -12,29 +12,29 @@ public class Timeline{
      * @param current the semester to start with
      * @return generated timeline
      */
-    public static Map<String, Set<Course>> generate(Set<Course> t, Set<Course> w, Semester current){
+    public static Map<String, Set<Course>> generate(Set<Course> t, Set<Course> w, Semester current) {
         // don't want to mutate the input
         Set<Course> taken = new HashSet<>(t);
         Set<Course> want = new HashSet<>(w);
 
         // This set will record necessary courses to form the timeline which missing in Set w.
         Set<Course> need;
-        do{
+        do {
             need = want.stream().flatMap(course -> course.prereqs.stream().filter(
                 prereq -> !(taken.contains(prereq) || want.contains(prereq))
             )).collect(Collectors.toSet());
             want.addAll(need);
-        }while(!need.isEmpty());
+        } while (!need.isEmpty());
         // After the loop, we added all necessary courses into want.
 
         Map<String, Set<Course>> output = new LinkedHashMap<>();
 
         // This loop go through courses in want and add those which can be taken in current semester
         // Then go to next semester and repeat. Until want is empty.
-        while(!want.isEmpty()){
+        while (!want.isEmpty()) {
             Set<Course> toTake = new HashSet<>();
-            for(Course course : want){
-                if(taken.containsAll(course.prereqs) && course.sessions.contains(current.session)){
+            for (Course course : want) {
+                if (taken.containsAll(course.prereqs) && course.sessions.contains(current.session)) {
                     toTake.add(course);
                 }
             }
@@ -46,7 +46,7 @@ public class Timeline{
         return output;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Course a08 = new Course("CSCA08", Session.FW, new HashSet<>());
         Course a67 = new Course("CSCA67", Session.FW, new HashSet<>());
 

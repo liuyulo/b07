@@ -6,11 +6,18 @@
     app:startDestination="@id/FirstFragment">
 
     <fragment
+        android:id="@+id/FragmentTimeline"
+        android:name="com.example.b07.TimelineFragment"
+        android:label="@string/fragment_timeline_label"
+        tools:layout="@layout/fragment_timeline_list" />
+    <fragment
         android:id="@+id/FirstFragment"
         android:name="com.example.b07.FirstFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
-
+        <action
+            android:id="@+id/action_First_to_Timeline"
+            app:destination="@id/FragmentTimeline" />
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
