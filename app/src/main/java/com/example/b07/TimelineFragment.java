@@ -51,7 +51,7 @@ public class TimelineFragment extends Fragment {
             Context context = view.getContext();
             Set<Course> want = Set.of(Course.from("cscc24"));
             Semester cur = new Semester(2022, Session.FALL);
-            Map<String, Set<Course>> todo = Timeline.generate(Set.of(), want, cur);
+            Map<String, Set<Course>> todo = Student.timeline(Set.of(), want, cur);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(new TimelineViewAdapter(todo));
         }
