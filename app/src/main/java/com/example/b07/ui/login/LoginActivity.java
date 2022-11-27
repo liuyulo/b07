@@ -5,6 +5,8 @@ import android.app.Activity;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.StringRes;
@@ -21,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.b07.Account;
+import com.example.b07.MainActivity;
 import com.example.b07.R;
 import com.example.b07.databinding.ActivityLoginBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -55,12 +58,15 @@ public class LoginActivity extends AppCompatActivity {
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
+        final Button registerButton = binding.register;
 
         loginViewModel.getLoginFormState().observe(this, state -> {
             if (state == null) {
                 return;
             }
-            loginButton.setEnabled(state.isDataValid());
+            boolean valid = state.isDataValid();
+            loginButton.setEnabled(valid);
+            registerButton.setEnabled(valid);
             if (state.getUsernameError() != null) {
                 usernameEditText.setError(getString(state.getUsernameError()));
             }
@@ -112,11 +118,13 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         });
 
+        binding.asStudent.setOnClickListener(v -> login("student", "student"));
+        binding.asAdmin.setOnClickListener(v -> login("admin", "password"));
         loginButton.setOnClickListener(v -> {
 
             String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
-//            login(username, password);
+            login(username, password);
             Log.d("Login", username + " " + password);
 //            loginViewModel.login(username, password);
         });
@@ -142,22 +150,33 @@ public class LoginActivity extends AppCompatActivity {
         return "";
     }
 
-    public static void login(String name, String password) {
+    public void login(String name, String password) {
         Account.name = name;
         DatabaseReference ref = LoginActivity.ref.child(name);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Object u = snapshot.getValue();
+                Context context = getApplicationContext();
                 // check existence
-                if (u == null) return;
+                if (u == null) {
+                    String dne = "User " + name + " does not exist!";
+                    Toast.makeText(context, dne, Toast.LENGTH_LONG).show();
+                    return;
+                }
                 // check password
                 String hash = snapshot.child("passwd").getValue(String.class);
-                if (!Objects.equals(sha256(password), hash)) return;
+                if (!Objects.equals(sha256(password), hash)) {
+                    String incorrect = "Incorrect password!";
+                    Toast.makeText(context, incorrect, Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 // check privileged
                 Account.privileged = Boolean.TRUE.equals(snapshot.child("privileged").getValue(Boolean.class));
-                Log.i("Account", name + " logged in");
+                Toast.makeText(context, "Welcome " + name + "!", Toast.LENGTH_SHORT).show();
+                // go to main activity
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
 
             @Override
