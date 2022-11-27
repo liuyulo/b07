@@ -28,6 +28,8 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Objects;
 
@@ -147,6 +149,11 @@ public class LoginFragment extends Fragment {
     public void welcome(String name) {
         Context context = getContext();
         Toast.makeText(context, "Welcome " + name + "!", Toast.LENGTH_SHORT).show();
+        // update last seen
+        OffsetDateTime now = OffsetDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+        ref.child(name).child("last").setValue(formatter.format(now).replace('T', ' ').replaceFirst("\\.[0-9]+", ""));
+
         // go to main activity
         if (!Account.privileged) {
             NavHostFragment.findNavController(LoginFragment.this).navigate(
