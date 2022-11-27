@@ -46,6 +46,11 @@ public class FirstFragment extends Fragment {
                 R.id.action_First_to_Timeline
             )
         );
+        view.findViewById(R.id.button_student).setOnClickListener(
+            v -> NavHostFragment.findNavController(FirstFragment.this).navigate(
+                R.id.action_FirstFragment_to_Student
+            )
+        );
 //        Course c = Course.from("CSCB07");
 //        Course c = new Course("aaaa01", Session.FS, Set.of(Course.from("CSCB07")));
 //        AtomicInteger count = new AtomicInteger();

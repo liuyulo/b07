@@ -6,10 +6,15 @@
     app:startDestination="@id/FirstFragment">
 
     <fragment
-        android:id="@+id/FragmentTimeline"
+        android:id="@+id/TimelineFragment"
         android:name="com.example.b07.TimelineFragment"
         android:label="@string/fragment_timeline_label"
         tools:layout="@layout/fragment_timeline_list" />
+    <fragment
+        android:id="@+id/StudentFragment"
+        android:name="com.example.b07.StudentView"
+        android:label="Student View"
+        tools:layout="@layout/fragment_student_view" />
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.example.b07.FirstFragment"
@@ -17,10 +22,13 @@
         tools:layout="@layout/fragment_first">
         <action
             android:id="@+id/action_First_to_Timeline"
-            app:destination="@id/FragmentTimeline" />
+            app:destination="@id/TimelineFragment" />
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_Student"
+            app:destination="@id/StudentFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
