@@ -85,9 +85,13 @@ public class StudentFragment extends Fragment {
             }
         });
         view.findViewById(R.id.timeline).setOnClickListener(
-            v -> NavHostFragment.findNavController(StudentFragment.this).navigate(
-                R.id.action_Student_to_Timeline
-            )
+            v -> {
+                Semester cur = new Semester(2022, Session.FALL);
+                s.tadapter = new TimelineAdapter(s.timeline(cur));
+                NavHostFragment.findNavController(StudentFragment.this).navigate(
+                    R.id.action_Student_to_Timeline
+                );
+            }
         );
     }
 }

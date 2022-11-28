@@ -3,11 +3,13 @@ package com.example.b07;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,9 +23,11 @@ import java.util.stream.StreamSupport;
 
 public class Student extends User {
     private static final String TAG = "Student";
-    protected Set<Course> wants = new HashSet<>();
+    public Set<Course> wants = new HashSet<>();
     private static final String TAKEN = "taken";
     private static final String WANTS = "wants";
+    // timeline adapter
+    public RecyclerView.Adapter<?> tadapter;
 
     private Student(String name) {
         super(name);
