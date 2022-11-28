@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StudentView">
+
+    <ImageView
+        android:id="@+id/View_Background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/user_view_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/Profile_Background"
+        android:layout_width="206dp"
+        android:layout_height="153dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="Background image of the student and professor view page"
+        android:src="@drawable/profile_frame"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username_here"
+        tools:ignore="ImageContrastCheck" />
+
+    <EditText
+        android:id="@+id/User_Welcome_Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:fontFamily="@font/ubuntu_light"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:text="Welcome back,"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/username_here"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="65dp"
+        android:ems="10"
+        android:fontFamily="@font/ubuntu_bold"
+        android:inputType="textPersonName"
+        android:text="Username"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
+
+    <Button
+        android:id="@+id/Generate_Table_Button"
+        android:layout_width="113dp"
+        android:layout_height="44dp"
+        android:background="#10217E"
+        android:text="ADD COURSES"
+        android:textColor="#FFFFFF"
+        app:iconTint="@color/light_blue_900"
+        tools:layout_editor_absoluteX="242dp"
+        tools:layout_editor_absoluteY="178dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

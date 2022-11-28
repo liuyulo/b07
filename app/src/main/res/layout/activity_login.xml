@@ -11,19 +11,21 @@
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/login_screen_page_for_the_app"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/login_page_background" />
 
     <EditText
         android:id="@+id/login_userName"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
+        android:layout_width="298dp"
+        android:layout_height="48dp"
         android:layout_marginTop="50dp"
+        android:autofillHints=""
         android:ems="10"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,30 +33,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
-    <EditText
-        android:id="@+id/login_password"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="5dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_userName" />
-
     <Button
         android:id="@+id/login_btn"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="132dp"
-        android:text="LOG IN"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="124dp"
+        android:text="@string/log_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_password" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
 
     <TextView
         android:id="@+id/textView"
@@ -62,7 +52,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="100dp"
         android:fontFamily="@font/ubuntu_bold"
-        android:text="University of Toronto"
+        android:text="@string/university_of_toronto"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
@@ -75,7 +65,7 @@
         android:layout_width="369dp"
         android:layout_height="48dp"
         android:fontFamily="@font/ubuntu_bold"
-        android:text="Course Planner"
+        android:text="@string/course_planner"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
@@ -88,9 +78,22 @@
         android:layout_width="168dp"
         android:layout_height="163dp"
         android:layout_marginTop="20dp"
+        android:contentDescription="@string/uoft_school_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:srcCompat="@drawable/utoronto_coa" />
+
+    <EditText
+        android:id="@+id/editTextTextPassword"
+        android:layout_width="298dp"
+        android:layout_height="68dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_userName"
+        android:autofillHints="" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
