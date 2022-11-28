@@ -5,6 +5,11 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/LoginFragment">
     <fragment
+        android:id="@+id/TakenFragment"
+        android:name="com.example.b07.TakenFragment"
+        android:label="Courses Taken"
+        tools:layout="@layout/fragment_taken" />
+    <fragment
         android:id="@+id/LoginFragment"
         android:name="com.example.b07.LoginFragment"
         android:label="Login"
@@ -25,6 +30,9 @@
         android:name="com.example.b07.StudentFragment"
         android:label="Homepage"
         tools:layout="@layout/fragment_student">
+        <action
+            android:id="@+id/action_Student_to_Taken"
+            app:destination="@id/TakenFragment" />
         <action
             android:id="@+id/action_Student_to_Timeline"
             app:destination="@id/TimelineFragment" />
