@@ -76,13 +76,13 @@ public class StudentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((TextView) view.findViewById(R.id.student_name)).setText(s.name);
-        Course a08 = Course.from("csca08");
+        Course a48 = Course.from("csca48");
         Course d01 = Course.from("cscd01");
         view.findViewById(R.id.test_take).setOnClickListener(v -> {
-            if (s.courses.contains(a08)) {
-                s.remove(a08);
+            if (s.courses.contains(a48)) {
+                s.remove(a48);
             } else {
-                s.add(a08);
+                s.add(a48);
             }
         });
         view.findViewById(R.id.test_want).setOnClickListener(v -> {
