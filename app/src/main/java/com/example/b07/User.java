@@ -1,6 +1,7 @@
 package com.example.b07;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -13,6 +14,7 @@ public abstract class User {
     protected static User instance;
     protected String name;
     protected Set<Course> courses;
+    protected RecyclerView.Adapter<?> adapter;
     protected DatabaseReference ref;
 
     public User(String name) {
@@ -26,7 +28,6 @@ public abstract class User {
     public String toString() {
         return "User{name='" + name + '\'' + ", courses=" + courses + '}';
     }
-
 
     public abstract boolean add(Course course);
 

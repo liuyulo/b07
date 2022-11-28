@@ -40,7 +40,6 @@ public class Student extends User {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
         ref.child(TAKEN).addValueEventListener(new ValueEventListener() {
@@ -49,6 +48,7 @@ public class Student extends User {
                 Log.d(TAG, "Student taken changed");
                 // update course list for user
                 Spliterator<DataSnapshot> iter = snapshot.getChildren().spliterator();
+                if (adapter != null) adapter.notifyDataSetChanged();
                 // recursively add courses to cache
                 Student.instance.courses = StreamSupport.stream(iter, false).map(
                     child -> Course.from(child.getValue(String.class))
@@ -57,7 +57,6 @@ public class Student extends User {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d(TAG, "listen: update unsuccessful, error(s) happened");
             }
         });
     }
@@ -102,15 +101,15 @@ public class Student extends User {
         // This loop go through courses in want and add those which can be taken in current semester
         // Then go to next semester and repeat. Until want is empty.
         while (!w.isEmpty()) {
-            Set<Course> toTake = new HashSet<>();
+            Set<Course> todo = new HashSet<>();
             for (Course course : w) {
                 if (t.containsAll(course.prereqs) && course.sessions.contains(current.session)) {
-                    toTake.add(course);
+                    todo.add(course);
                 }
             }
-            output.put(String.valueOf(current), toTake);
-            w.removeAll(toTake);
-            t.addAll(toTake);
+            output.put(String.valueOf(current), todo);
+            w.removeAll(todo);
+            t.addAll(todo);
             current = current.next();
         }
         return output;
