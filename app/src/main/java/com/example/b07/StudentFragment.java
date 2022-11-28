@@ -77,19 +77,25 @@ public class StudentFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ((TextView) view.findViewById(R.id.student_name)).setText(s.name);
         Course a08 = Course.from("csca08");
-        view.findViewById(R.id.test).setOnClickListener(v -> {
+        Course d01 = Course.from("cscd01");
+        view.findViewById(R.id.test_take).setOnClickListener(v -> {
             if (s.courses.contains(a08)) {
                 s.remove(a08);
             } else {
                 s.add(a08);
             }
         });
-        view.findViewById(R.id.timeline).setOnClickListener(
-            v -> {
-                NavHostFragment.findNavController(StudentFragment.this).navigate(
-                    R.id.action_Student_to_Timeline
-                );
+        view.findViewById(R.id.test_want).setOnClickListener(v -> {
+            if (s.wants.contains(d01)) {
+                s.unwant(d01);
+            } else {
+                s.want(d01);
             }
+        });
+        view.findViewById(R.id.timeline).setOnClickListener(
+            v -> NavHostFragment.findNavController(StudentFragment.this).navigate(
+                R.id.action_Student_to_Timeline
+            )
         );
     }
 }

@@ -25,6 +25,8 @@ public class Student extends User {
     private static final String TAKEN = "taken";
     private static final String WANTS = "wants";
     public static Semester semester = new Semester(2022, Session.FALL);
+    // adapter for wishlist
+//    protected RecyclerView.Adapter<?> wadapter;
 
     private Student(String name) {
         super(name);
@@ -86,6 +88,7 @@ public class Student extends User {
         // don't want to mutate the fields
         Set<Course> t = new HashSet<>(taken);
         Set<Course> w = new HashSet<>(want);
+        Log.d(TAG, String.valueOf(want));
 
         // This set will record necessary courses to form the timeline which missing in Set w.
         Set<Course> need;
@@ -135,7 +138,7 @@ public class Student extends User {
     public boolean unwant(Course course) {
         // remove course from db
         if (!wants.contains(course)) return false;
-        updateTaken(wants.stream().filter(c -> !c.equals(course)).collect(Collectors.toSet()));
+        updateWants(wants.stream().filter(c -> !c.equals(course)).collect(Collectors.toSet()));
         return true;
     }
 

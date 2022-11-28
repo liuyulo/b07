@@ -40,12 +40,6 @@ class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Holder> {
             this.session = session;
             this.codes = courses.stream().map(c -> c.code).collect(Collectors.toList());
         }
-
-        @NonNull
-        @Override
-        public String toString() {
-            return "Item{session='" + session + '\'' + ", codes=" + codes + '}';
-        }
     }
 
     private final List<Item> courses;
@@ -70,7 +64,7 @@ class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Holder> {
         List<String> codes = courses.get(position).codes.stream().map(
             c -> c.toUpperCase(Locale.ROOT)
         ).collect(Collectors.toList());
-        holder.courses.setText(codes.size() > 0 ? String.join(", ", codes) : "None");
+        holder.courses.setText(codes.size() > 0 ? String.join("\n", codes) : "None");
     }
 
     @Override
