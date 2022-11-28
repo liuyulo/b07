@@ -67,11 +67,5 @@ public class TimelineViewAdapter extends RecyclerView.Adapter<TimelineViewAdapte
             id = binding.itemNumber;
             content = binding.content;
         }
-
-        @NonNull
-        @Override
-        public String toString() {
-            return super.toString() + " '" + content.getText() + "'";
-        }
     }
 }
