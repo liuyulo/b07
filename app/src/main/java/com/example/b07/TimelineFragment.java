@@ -17,7 +17,6 @@ import com.example.b07.databinding.FragmentTimelineBinding;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -51,11 +50,11 @@ class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Holder> {
 
     private final List<Item> courses;
 
-    public TimelineAdapter(Map<String, Set<Course>> timeline) {
-        courses = timeline.entrySet().stream().map(
+    public TimelineAdapter() {
+        Log.d("TimelineAdapter", "init");
+        courses = Student.getInstance().timeline().entrySet().stream().map(
             e -> new Item(e.getKey(), e.getValue())
         ).collect(Collectors.toList());
-        Log.d("Timeline", String.valueOf(courses));
     }
 
     @NonNull
@@ -86,14 +85,6 @@ class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Holder> {
  */
 public class TimelineFragment extends Fragment {
 
-    public TimelineFragment() {
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_timeline_list, container, false);
@@ -102,7 +93,7 @@ public class TimelineFragment extends Fragment {
         if (view instanceof RecyclerView recycler) {
             Context context = view.getContext();
             recycler.setLayoutManager(new LinearLayoutManager(context));
-            recycler.setAdapter(Student.getInstance().tadapter);
+            recycler.setAdapter(new TimelineAdapter());
         }
         return view;
     }

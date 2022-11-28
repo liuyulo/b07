@@ -3,13 +3,11 @@ package com.example.b07;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,8 +24,7 @@ public class Student extends User {
     public Set<Course> wants = new HashSet<>();
     private static final String TAKEN = "taken";
     private static final String WANTS = "wants";
-    // timeline adapter
-    public RecyclerView.Adapter<?> tadapter;
+    public static Semester semester = new Semester(2022, Session.FALL);
 
     private Student(String name) {
         super(name);
@@ -122,8 +119,8 @@ public class Student extends User {
     /**
      * generate timeline
      */
-    public Map<String, Set<Course>> timeline(Semester current) {
-        return Student.timeline(courses, wants, current);
+    public Map<String, Set<Course>> timeline() {
+        return Student.timeline(courses, wants, semester);
     }
 
     /**
