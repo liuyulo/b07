@@ -16,15 +16,6 @@ import com.example.b07.databinding.FragmentCourseBinding;
 
 import java.util.Map;
 
-class CourseHolder extends RecyclerView.ViewHolder {
-    public final TextView code;
-
-    public CourseHolder(FragmentCourseBinding b) {
-        super(b.getRoot());
-        code = b.courseCode;
-    }
-}
-
 public class StudentFragment extends Fragment {
 
     Student s;

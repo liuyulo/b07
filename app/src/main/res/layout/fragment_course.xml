@@ -28,9 +28,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="this is a very long description" />
+        android:id="@+id/course_title"
+        android:text="this is a very long course title" />
 
     <TextView
+        android:id="@+id/course_prereqs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Prerequisites: None" />

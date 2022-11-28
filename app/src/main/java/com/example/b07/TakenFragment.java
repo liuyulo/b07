@@ -5,42 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.b07.databinding.FragmentCourseBinding;
-
-import java.util.ArrayList;
-
 public class TakenFragment extends Fragment {
 
     Student s = Student.getInstance();
 
-    public class Adapter extends RecyclerView.Adapter<CourseHolder> {
-        @NonNull
-        @Override
-        public CourseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            return new CourseHolder(FragmentCourseBinding.inflate(inflater, parent, false));
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull CourseHolder holder, int position) {
-            ArrayList<Course> courses = new ArrayList<>(s.courses);
-            holder.code.setText(courses.get(position).code);
-        }
-
-        @Override
-        public int getItemCount() {
-            return s.courses.size();
-        }
-    }
-
     public TakenFragment() {
-        s.adapter = new Adapter();
+        s.adapter = new CourseAdapter(() -> s.courses);
     }
 
 
