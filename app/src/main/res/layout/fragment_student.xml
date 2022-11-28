@@ -143,13 +143,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/button_timeline" />
 
-    <Button
-        android:id="@+id/test_take"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:text="take"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/button_timeline" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
