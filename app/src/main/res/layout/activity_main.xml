@@ -22,26 +22,26 @@
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/Theme.B07.PopupOverlay">
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/t_wish"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="wish"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/test_take"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="take"
-                android:visibility="gone" />
-        </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/t_wish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="wish"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/test_take"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="take"
+            android:visibility="gone" />
+    </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
