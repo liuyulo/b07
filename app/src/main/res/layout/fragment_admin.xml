@@ -30,8 +30,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginTop="25dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <ImageView
@@ -112,17 +112,12 @@
             android:textColor="#FFFFFF"
             android:textSize="30sp" />
 
-        <ScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/courses_all"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/courses_all"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="10dp"
-                tools:listitem="@layout/fragment_course" />
-        </ScrollView>
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
+            tools:listitem="@layout/fragment_course" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
