@@ -47,7 +47,6 @@ public class LoginFragment extends Fragment {
         return b.password.getText().toString();
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,6 +70,9 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // check username and password validity
+
+        LoginPresenter Logger = new LoginPresenter(this);
+
         TextWatcher callback = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -82,8 +84,8 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String name = checkUsername(username());
-                String pass = checkPassword(password());
+                String name = Logger.checkUsername(username());
+                String pass = Logger.checkPassword(password());
                 boolean enabled = name == null && pass == null;
                 if (name != null) b.username.setError(name);
                 if (pass != null) b.password.setError(pass);
@@ -95,52 +97,15 @@ public class LoginFragment extends Fragment {
         b.password.addTextChangedListener(callback);
         b.password.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                login(username(), password());
+                Account.login(username(), password());
             }
             return false;
         });
 
-        b.asStudent.setOnClickListener(v -> login("student", "password"));
-        b.asAdmin.setOnClickListener(v -> login("admin", "password"));
-        b.login.setOnClickListener(v -> login(username(), password()));
-        b.register.setOnClickListener(v -> register(username(), password()));
-    }
-
-
-    private String checkPassword(String password) {
-        final int n = 8;
-        if (password.length() < n) {
-            return "Password must be at least " + n + " characters";
-        }
-        return null;
-    }
-
-    private String checkUsername(String username) {
-        if (username.trim().length() == 0) {
-            return "Username cannot be empty or whitespace";
-        } else if (username.startsWith(" ")) {
-            return "Username cannot start with whitespace";
-        } else if (username.endsWith(" ")) {
-            return "Username cannot end with whitespace";
-        }
-        return null;
-    }
-
-    /**
-     * Encrypt to sha256
-     */
-    public static String sha256(String message) {
-        // My IDE: Unhandled exception: NoSuchAlgorithmException
-        // Me: trust me bro
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] bytes = digest.digest(message.getBytes(StandardCharsets.UTF_8));
-            return String.format("%064x", new BigInteger(1, bytes));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            System.err.println("yo wdym you dont know what sha256 is");
-        }
-        return "";
+        b.asStudent.setOnClickListener(v -> Account.login("student", "password"));
+        b.asAdmin.setOnClickListener(v -> Account.login("admin", "password"));
+        b.login.setOnClickListener(v -> Account.login(username(), password()));
+        b.register.setOnClickListener(v -> Account.register(username(), password()));
     }
 
     /**
@@ -160,67 +125,6 @@ public class LoginFragment extends Fragment {
                 R.id.action_Login_to_Student
             );
         }
-    }
-
-    public void login(String name, String password) {
-        Account.name = name;
-        DatabaseReference ref = LoginFragment.ref.child(name);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Object u = snapshot.getValue();
-                Context context = getContext();
-                // check existence
-                if (u == null) {
-                    String dne = "User " + name + " does not exist!";
-                    Toast.makeText(context, dne, Toast.LENGTH_LONG).show();
-                    return;
-                }
-                // check password
-                String hash = snapshot.child("passwd").getValue(String.class);
-                if (!Objects.equals(sha256(password), hash)) {
-                    String incorrect = "Incorrect password!";
-                    Toast.makeText(context, incorrect, Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                // check privileged
-                Account.privileged = Boolean.TRUE.equals(snapshot.child("privileged").getValue(Boolean.class));
-                welcome(name);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w("Account", "login cancelled");
-            }
-        });
-    }
-
-    /**
-     * Sign up as student
-     */
-    public void register(String name, String password) {
-        Account.name = name;
-        Account.privileged = false;
-        DatabaseReference ref = LoginFragment.ref.child(name);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String dne = "User " + name + " already exists!";
-                    Toast.makeText(getContext(), dne, Toast.LENGTH_LONG).show();
-                    return;
-                }
-                ref.updateChildren(Map.of(
-                    "passwd", sha256(password), "privileged", false, "courses", Map.of()
-                ));
-                welcome(name);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
     }
 
     @Override
