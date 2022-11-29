@@ -1,25 +1,3 @@
 <resources>
     <string name="app_name">b07</string>
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="todo">TODO</string>
-    <string name="generate_timetable">GENERATE TIMETABLE</string>
-    <string name="course_wishlist">COURSE WISHLIST</string>
-    <string name="courses_taken">COURSES TAKEN</string>
-    <string name="course_planner">Course Planner</string>
-    <string name="university_of_toronto">University of Toronto</string>
-    <string name="log_in">LOG IN</string>
-    <string name="login_screen_page_for_the_app">Login screen page for the app</string>
-    <string name="uoft_school_logo">UofT School Logo</string>
 </resources>
