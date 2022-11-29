@@ -30,34 +30,59 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
+            android:gravity="center"
             android:layout_marginTop="25dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/User_Welcome_Text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:fontFamily="@font/ubuntu_light"
-                android:text="Welcome back,"
-                android:textAlignment="viewStart"
-                android:textColor="#FFFFFF"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/profile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:contentDescription="Background image of the student and professor view page"
+                android:src="@drawable/profile_frame"
+                tools:ignore="ImageContrastCheck" />
 
-            <TextView
-                android:id="@+id/admin_name"
+            <LinearLayout
                 android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/User_Welcome_Text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:fontFamily="@font/ubuntu_light"
+                    android:text="Welcome back,"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/admin_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/ubuntu_bold"
+                    android:text="Admin"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/create_course"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="@font/ubuntu_bold"
-                android:text="Admin"
-                android:textAlignment="viewStart"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:text="create course"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
         </LinearLayout>
 
         <LinearLayout
@@ -65,27 +90,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/Profile_Background"
-                android:layout_width="215dp"
-                android:layout_height="187dp"
-                android:layout_marginTop="20dp"
-                android:contentDescription="Background image of the student and professor view page"
-                android:src="@drawable/profile_frame"
-                tools:ignore="ImageContrastCheck" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:id="@+id/create_course"
-                    android:text="create course"
-                    app:layout_constraintRight_toRightOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
@@ -111,7 +120,8 @@
                 android:id="@+id/courses_all"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="10dp" />
+                android:layout_marginHorizontal="10dp"
+                tools:listitem="@layout/fragment_course" />
         </ScrollView>
 
     </LinearLayout>
