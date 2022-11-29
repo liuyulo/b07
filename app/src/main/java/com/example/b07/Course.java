@@ -35,6 +35,7 @@ public class Course {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Spliterator<DataSnapshot> iter = snapshot.getChildren().spliterator();
                 StreamSupport.stream(iter, false).map(DataSnapshot::getKey).map(Course::from).forEach(c -> cache.put(c.code, c));
+                adapter.notifyDataSetChanged();
             }
 
             @Override
