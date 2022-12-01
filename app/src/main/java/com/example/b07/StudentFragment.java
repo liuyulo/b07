@@ -22,7 +22,8 @@ public class StudentFragment extends Fragment {
     private static final String TAG = "Student";
     private static final Map<Integer, Integer> nav = Map.of(
         R.id.button_timeline, R.id.action_Student_to_Timeline,
-        R.id.button_taken, R.id.action_Student_to_Taken
+        R.id.button_taken, R.id.action_Student_to_Taken,
+        R.id.test_want, R.id.action_Student_to_Want
     );
 
 

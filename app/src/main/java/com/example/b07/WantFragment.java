@@ -32,12 +32,12 @@ public class WantFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        ((AppCompatActivity) getActivity()).findViewById(R.id.test_want).setVisibility(View.GONE);
+        ((AppCompatActivity) getActivity()).findViewById(R.id.t_wish).setVisibility(View.GONE);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).findViewById(R.id.test_want).setVisibility(View.VISIBLE);
+        ((AppCompatActivity) getActivity()).findViewById(R.id.t_wish).setVisibility(View.VISIBLE);
     }
 }
