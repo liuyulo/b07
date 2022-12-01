@@ -18,7 +18,6 @@ public class TakenFragment extends Fragment {
         s.adapter = new CourseAdapter(() -> s.courses);
     }
 
-
     @Override
     public void onResume() {
         ((AppCompatActivity) getActivity()).findViewById(R.id.test_take).setVisibility(View.VISIBLE);
