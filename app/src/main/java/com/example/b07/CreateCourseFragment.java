@@ -7,6 +7,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Spinner;
+
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,18 +51,31 @@ public class CreateCourseFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_course, container, false);
+
+       // Course(String code, Set<Session> sessions, Set<Course> prereqs) {
+          //  this.code = code;
+          //  this.sessions = sessions;
+         //   this.prereqs = prereqs;
+
+        View view = inflater.inflate(R.layout.fragment_create_course, container, false);
+
+        EditText course_code = view.findViewById(R.id.edit_course_code);
+        String entered_course_code = course_code.getText().toString();
+
+        EditText course_name = view.findViewById(R.id.edit_course_name);
+        String entered_course_name = course_code.getText().toString();
+
+        Spinner select_session = view.findViewById(R.id.select_course_session);
+        Set<Session> fall = Set.of(Session.FALL, Session.WINTER, Session.SUMMER);
+
+        //get list of courses from firebase
+        Set<Course> prereq = Set.of(Course.from("CSCA08"), Course.from("MATA31"));
+
+        Course new_course = new Course(entered_course_code, fall, prereq);
+        Admin.getInstance().add(new_course);
+
+        return view;
     }
 }

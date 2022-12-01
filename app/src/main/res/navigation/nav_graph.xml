@@ -4,11 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/LoginFragment">
+
     <fragment
         android:id="@+id/TakenFragment"
         android:name="com.example.b07.TakenFragment"
         android:label="Courses Taken"
         tools:layout="@layout/fragment_taken" />
+
+    <fragment
+        android:id="@+id/CreateCourseFragment"
+        android:name="com.example.b07.CreateCourseFragment"
+        android:label="Create Course"
+        tools:layout="@layout/fragment_create_course" />
     <fragment
         android:id="@+id/LoginFragment"
         android:name="com.example.b07.LoginFragment"
