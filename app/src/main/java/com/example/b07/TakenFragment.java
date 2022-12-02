@@ -4,11 +4,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TableLayout;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TakenFragment extends Fragment {
 
@@ -21,13 +30,13 @@ public class TakenFragment extends Fragment {
 
     @Override
     public void onResume() {
-        ((AppCompatActivity) getActivity()).findViewById(R.id.test_take).setVisibility(View.VISIBLE);
+        ((AppCompatActivity) getActivity()).findViewById(R.id.coursesSpinner).setVisibility(View.VISIBLE);
         super.onResume();
     }
 
     @Override
     public void onStop() {
-        ((AppCompatActivity) getActivity()).findViewById(R.id.test_take).setVisibility(View.GONE);
+        ((AppCompatActivity) getActivity()).findViewById(R.id.coursesSpinner).setVisibility(View.GONE);
         super.onStop();
     }
 
