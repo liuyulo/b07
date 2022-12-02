@@ -20,7 +20,7 @@ import java.util.Spliterator;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class Course {
+public class Course implements Comparable<Course>{
     public String code;
     public Set<Session> sessions;
     public Set<Course> prereqs;
@@ -100,5 +100,11 @@ public class Course {
             ", sessions=" + sessions +
             ", prereqs=" + prereqs.stream().map(c -> c.code).collect(Collectors.toSet()) +
             '}';
+    }
+
+
+    @Override
+    public int compareTo(Course course) {
+        return this.code.compareTo(course.code);
     }
 }

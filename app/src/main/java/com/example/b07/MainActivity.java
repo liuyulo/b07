@@ -28,7 +28,9 @@ import java.util.stream.Collectors;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private List<String> codelist = Course.cache.values().stream().map(c -> c.code).collect(Collectors.toList());
+    //Get the courses from database, assign them to a list
+    private List<String> codelist = Course.cache.values().stream().map(c -> c.code).
+            collect(Collectors.toList());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +41,15 @@ public class MainActivity extends AppCompatActivity {
         codelist.add("csca48");
         codelist.add("cscc24");
         //End of test codes.
-        Collections.sort(codelist);
-        codelist.add(0,"Taken");
+        Collections.sort(codelist); //Sorting the items in spinner by codes
+        codelist.add(0,"Taken"); //Add a header "Taken" to the spinner
         ActivityMainBinding b = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(b.getRoot());
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_spinner_item, codelist);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        b.coursesSpinner.setAdapter(arrayAdapter);
+        b.coursesSpinner.setAdapter(arrayAdapter);//spinner created
+        //Setting up the listener
         b.coursesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -56,10 +59,14 @@ public class MainActivity extends AppCompatActivity {
                     if (s.courses.contains(selected)) {
                         Toast.makeText(getApplicationContext(), "Course exist in Taken List",
                                 Toast.LENGTH_SHORT).show();
+                        //If the course have existed in the list, show a toast
                     } else {
                         s.add(selected);
                         s.courses.add(selected);
+                        //If not, add it to the list
                     }
+                    //Make the spinner header always show "Taken" when not clicked
+                    b.coursesSpinner.setSelection(0);
                 }
             }
 
