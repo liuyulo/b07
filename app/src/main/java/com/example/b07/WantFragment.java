@@ -16,7 +16,7 @@ public class WantFragment extends Fragment {
     Student s = Student.getInstance();
 
     public WantFragment() {
-        s.adapter = new CourseAdapter(() -> s.courses);
+        s.adapter = new CourseAdapter(() -> s.wants);
     }
 
     @Override
