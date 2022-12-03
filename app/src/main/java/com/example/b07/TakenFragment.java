@@ -4,30 +4,45 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TableLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class TakenFragment extends Fragment {
 
     Student s = Student.getInstance();
 
     public TakenFragment() {
-        s.adapter = new CourseAdapter(() -> s.courses);
+        s.adapter = new CourseAdapter(() -> new TreeSet(s.courses));
     }
-
 
     @Override
     public void onResume() {
-        ((AppCompatActivity) getActivity()).findViewById(R.id.test_take).setVisibility(View.VISIBLE);
+        ((AppCompatActivity) getActivity()).findViewById(R.id.coursesSpinner).setVisibility(View.VISIBLE);
         super.onResume();
     }
 
     @Override
     public void onStop() {
-        ((AppCompatActivity) getActivity()).findViewById(R.id.test_take).setVisibility(View.GONE);
+        ((AppCompatActivity) getActivity()).findViewById(R.id.coursesSpinner).setVisibility(View.GONE);
         super.onStop();
     }
 
