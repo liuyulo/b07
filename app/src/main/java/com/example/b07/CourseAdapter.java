@@ -2,7 +2,9 @@ package com.example.b07;
 
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,12 +22,22 @@ class CourseHolder extends RecyclerView.ViewHolder {
     public final TextView code;
     public final TextView prereq;
     public final TextView title;
+    public Button deleteCross;
 
     public CourseHolder(com.example.b07.databinding.FragmentCourseBinding b) {
         super(b.getRoot());
         code = b.courseCode;
         title = b.courseTitle;
         prereq = b.coursePrereqs;
+        deleteCross = b.deleteCross;
+
+        deleteCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Student s = Student.getInstance();
+                s.remove(Course.from(code.toString()));
+            }
+        });
     }
 }
 
