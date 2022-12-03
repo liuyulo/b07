@@ -25,7 +25,9 @@
         app:layout_constraintEnd_toStartOf="@+id/btn_delete"
         app:layout_constraintTop_toBottomOf="@+id/taken"
         app:layout_constraintVertical_bias="0.516"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints,NotSibling"
+        android:layout_alignBottom="@+id/edittext_insert"
+        android:layout_toEndOf="@+id/edittext_insert" />
 
     <Button
         android:id="@+id/btn_insert"

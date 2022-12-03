@@ -43,6 +43,7 @@ public class TakenFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_taken, container, false);
         RecyclerView taken = view.findViewById(R.id.taken);
+        taken.setHasFixedSize(true);
         taken.setLayoutManager(new LinearLayoutManager(view.getContext()));
         taken.setAdapter(s.adapter);
 
@@ -54,16 +55,16 @@ public class TakenFragment extends Fragment {
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String inputCourse = editTextInsert.getText().toString();
-                s.add(Course.from(inputCourse));
+                s.add(Course.from(editTextInsert.getText().toString()));
+                s.adapter.notifyDataSetChanged();
             }
         });
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String inputCourse = editTextDelete.getText().toString();
-                s.remove(Course.from(inputCourse));
+                s.remove(Course.from(editTextDelete.getText().toString()));
+                s.adapter.notifyDataSetChanged();
             }
         });
 
