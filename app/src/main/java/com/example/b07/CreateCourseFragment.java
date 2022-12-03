@@ -7,8 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.Set;
 
@@ -27,6 +30,7 @@ public class CreateCourseFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Set<Session> sessions;
 
     public CreateCourseFragment() {
         // Required empty public constructor
@@ -49,7 +53,30 @@ public class CreateCourseFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    public void onCheckboxClicked(View view) {
 
+        boolean checked = ((CheckBox) view).isChecked();
+
+        switch(view.getId()) {
+            case R.id.checkBox:
+                if (checked)
+                sessions.add(Session.FALL);
+            else
+                break;
+
+            case R.id.checkBox2:
+                if (checked)
+                    sessions.add(Session.WINTER);
+                else
+                    break;
+
+            case R.id.checkBox3:
+                if (checked)
+                    sessions.add(Session.SUMMER);
+                else
+                    break;
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,13 +94,14 @@ public class CreateCourseFragment extends Fragment {
         EditText course_name = view.findViewById(R.id.edit_course_name);
         String entered_course_name = course_code.getText().toString();
 
-        Spinner select_session = view.findViewById(R.id.select_course_session);
-        Set<Session> fall = Set.of(Session.FALL, Session.WINTER, Session.SUMMER);
+        Button fall_selected = view.findViewById(R.id.checkBox);
+        Button winter_selected = view.findViewById(R.id.checkBox2);
+        Button summer_selected = view.findViewById(R.id.checkBox3);
 
         //get list of courses from firebase
         Set<Course> prereq = Set.of(Course.from("CSCA08"), Course.from("MATA31"));
 
-        Course new_course = new Course(entered_course_code, fall, prereq);
+        Course new_course = new Course(entered_course_code, sessions, prereq);
         Admin.getInstance().add(new_course);
 
         return view;
