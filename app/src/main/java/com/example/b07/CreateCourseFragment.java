@@ -100,6 +100,16 @@ public class CreateCourseFragment extends Fragment {
         EditText course_name = view.findViewById(R.id.edit_course_name);
         String entered_course_name = course_code.getText().toString();
 
+        EditText to_add_req = view.findViewById(R.id.add_prereq );
+
+        Button prereq_button = view.findViewById(R.id.prereq_button);
+        prereq_button.setOnClickListener(v->{
+
+            String course_to_add = course_code.getText().toString();
+
+            Course.from(course_to_add);
+        });
+
         //get list of courses from firebase
         Set<Course> prereq = Set.of(Course.from("CSCA08"), Course.from("MATA31"));
 
