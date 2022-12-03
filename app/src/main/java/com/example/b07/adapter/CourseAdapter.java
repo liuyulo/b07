@@ -1,4 +1,4 @@
-package com.example.b07;
+package com.example.b07.adapter;
 
 
 import android.util.Log;
@@ -38,10 +38,6 @@ class CourseHolder extends RecyclerView.ViewHolder {
             s.remove(Course.from(code.toString()));
         });
     }
-}
-
-interface GetCourse {
-    Set<Course> get();
 }
 
 

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.b07.adapter.CourseAdapter;
 import com.example.b07.user.Student;
 import com.example.b07.user.Want;
 

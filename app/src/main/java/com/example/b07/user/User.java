@@ -2,6 +2,7 @@ package com.example.b07.user;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.b07.adapter.CourseAdapter;
 import com.example.b07.course.Course;
 import com.google.firebase.database.DatabaseReference;
 
@@ -21,6 +22,7 @@ public abstract class User {
 
     public User() {
         this.courses = new TreeSet<>();
+        this.adapter = new CourseAdapter(() -> courses);
     }
 
     public abstract boolean add(Course course);

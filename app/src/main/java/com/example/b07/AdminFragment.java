@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.b07.adapter.CourseAdapter;
 import com.example.b07.course.Course;
 import com.example.b07.user.Account;
 import com.example.b07.user.Admin;
