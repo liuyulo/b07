@@ -1,4 +1,4 @@
-package com.example.b07;
+package com.example.b07.user;
 
 import androidx.annotation.NonNull;
 

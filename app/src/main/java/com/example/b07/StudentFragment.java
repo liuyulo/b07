@@ -4,36 +4,35 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.b07.databinding.FragmentCourseBinding;
+import com.example.b07.user.Account;
+import com.example.b07.user.Student;
+import com.example.b07.user.Taken;
+import com.example.b07.user.Want;
 
 import java.util.Map;
 
 public class StudentFragment extends Fragment {
 
-    Student s;
     private static final String TAG = "Student";
+    private final Taken t = Taken.getInstance();
+    private final Want w = Want.getInstance();
     private static final Map<Integer, Integer> nav = Map.of(
-        R.id.button_timeline, R.id.action_Student_to_Timeline,
-        R.id.button_taken, R.id.action_Student_to_Taken,
-        R.id.test_want, R.id.action_Student_to_Want
+        R.id.button_timeline, R.id.action_Student_to_Timeline
+//        R.id.button_taken, R.id.action_Student_to_Taken
     );
 
 
     public StudentFragment() {
-        s = Student.getInstance();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -44,19 +43,25 @@ public class StudentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((TextView) view.findViewById(R.id.student_name)).setText(s.name);
-        // tmp code for testing
-        Course d01 = Course.from("cscd01");
-        view.findViewById(R.id.test_want).setOnClickListener(v -> {
-            if (s.wants.contains(d01)) {
-                s.unwant(d01);
-            } else {
-                s.want(d01);
-            }
-        });
-
+        ((TextView) view.findViewById(R.id.student_name)).setText(Account.name);
+        TextView title = (TextView) view.findViewById(R.id.courses_title);
+        RecyclerView courses = view.findViewById(R.id.student_courses);
+        courses.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        Button b = (Button) view.findViewById(R.id.switch_courses);
+        b.setOnClickListener(v -> setAdapter(v, courses, title));
+        setAdapter(b, courses, title);
         nav.forEach((button, action) -> view.findViewById(button).setOnClickListener(
             v -> NavHostFragment.findNavController(StudentFragment.this).navigate(action)
         ));
+    }
+
+    private void setAdapter(View v, RecyclerView recycler, TextView title) {
+        switch (Student.current) {
+            case WISHLIST -> recycler.setAdapter(w.adapter);
+            case TAKEN -> recycler.setAdapter(t.adapter);
+        }
+        title.setText("courses " + Student.current.name());
+        ((Button) v).setText("view " + Student.current.next().name());
+        Student.current = Student.current.next();
     }
 }
