@@ -64,6 +64,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseHolder> {
         Log.d("CourseAdapter", String.valueOf(this.courses()));
         Course course = new ArrayList<>(this.courses()).get(position);
         holder.code.setText(course.code);
+        holder.title.setText(course.name);
         List<String> pres = course.prereqs.stream().map(c -> c.code.toUpperCase(Locale.ROOT)).collect(Collectors.toList());
         holder.prereq.setText("Prerequisites: " + String.join(", ", pres));
     }
