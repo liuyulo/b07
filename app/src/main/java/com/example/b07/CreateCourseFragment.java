@@ -1,5 +1,6 @@
 package com.example.b07;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -55,6 +56,7 @@ public class CreateCourseFragment extends Fragment {
     }
     public void onCheckboxClicked(View view) {
 
+        Context context = getContext();
         boolean checked = ((CheckBox) view).isChecked();
 
         switch(view.getId()) {
@@ -76,6 +78,9 @@ public class CreateCourseFragment extends Fragment {
                 else
                     break;
         }
+
+        if (sessions.isEmpty())
+            Toast.makeText(context, "Please select at least one offering session", Toast.LENGTH_SHORT).show();
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,10 +98,6 @@ public class CreateCourseFragment extends Fragment {
 
         EditText course_name = view.findViewById(R.id.edit_course_name);
         String entered_course_name = course_code.getText().toString();
-
-        Button fall_selected = view.findViewById(R.id.checkBox);
-        Button winter_selected = view.findViewById(R.id.checkBox2);
-        Button summer_selected = view.findViewById(R.id.checkBox3);
 
         //get list of courses from firebase
         Set<Course> prereq = Set.of(Course.from("CSCA08"), Course.from("MATA31"));
