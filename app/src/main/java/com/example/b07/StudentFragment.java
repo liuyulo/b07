@@ -15,29 +15,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.b07.user.Account;
+import com.example.b07.user.Student;
 import com.example.b07.user.Taken;
 import com.example.b07.user.Want;
 
 import java.util.Map;
-
-enum Courses {
-    TAKEN,
-    WISHLIST;
-
-    public Courses next() {
-        return switch (this) {
-            case TAKEN -> WISHLIST;
-            case WISHLIST -> TAKEN;
-        };
-    }
-}
 
 public class StudentFragment extends Fragment {
 
     private static final String TAG = "Student";
     private final Taken t = Taken.getInstance();
     private final Want w = Want.getInstance();
-    private Courses current = Courses.TAKEN;
     private static final Map<Integer, Integer> nav = Map.of(
 //        R.id.button_timeline, R.id.action_Student_to_Timeline,
 //        R.id.button_taken, R.id.action_Student_to_Taken
@@ -68,12 +56,12 @@ public class StudentFragment extends Fragment {
     }
 
     private void setAdapter(View v, RecyclerView recycler, TextView title) {
-        switch (current) {
+        switch (Student.current) {
             case WISHLIST -> recycler.setAdapter(w.adapter);
             case TAKEN -> recycler.setAdapter(t.adapter);
         }
-        title.setText("courses " + current.name());
-        ((Button) v).setText("view " + current.next().name());
-        current = current.next();
+        title.setText("courses " + Student.current.name());
+        ((Button) v).setText("view " + Student.current.next().name());
+        Student.current = Student.current.next();
     }
 }

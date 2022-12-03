@@ -23,6 +23,7 @@ import java.util.stream.StreamSupport;
 public abstract class Student extends User {
     protected static String name;
     public static Semester semester = new Semester(2022, Session.FALL);
+    public static CourseType current = CourseType.TAKEN;
 
     protected Student(String name) {
         Student.name = name;
