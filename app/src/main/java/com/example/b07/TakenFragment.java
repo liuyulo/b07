@@ -34,7 +34,6 @@ public class TakenFragment extends Fragment {
         s.adapter = new CourseAdapter(() -> new TreeSet(s.courses));
     }
 
-
     @Override
     public void onResume() {
         ((AppCompatActivity) getActivity()).findViewById(R.id.coursesSpinner).setVisibility(View.VISIBLE);
