@@ -1,7 +1,6 @@
 package com.example.b07;
 
 import android.os.Bundle;
-import android.widget.Button;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +12,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.b07.course.Course;
 import com.example.b07.databinding.ActivityMainBinding;
+import com.example.b07.user.Student;
+import com.example.b07.user.Taken;
 
 import java.util.Collections;
 import java.util.List;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i != 0) {
                     Course selected = Course.from(codelist.get(i));
-                    Student s = Student.getInstance();
+                    Student s = Taken.getInstance();
                     if (s.courses.contains(selected)) {
                         Toast.makeText(getApplicationContext(), "Course exist in Taken List",
                                 Toast.LENGTH_SHORT).show();

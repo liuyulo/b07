@@ -1,8 +1,8 @@
 package com.example.b07;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,12 +10,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.b07.course.Course;
+import com.example.b07.user.Student;
+import com.example.b07.user.Taken;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 class CourseHolder extends RecyclerView.ViewHolder {
@@ -31,12 +33,9 @@ class CourseHolder extends RecyclerView.ViewHolder {
         prereq = b.coursePrereqs;
         deleteCross = b.deleteCross;
 
-        deleteCross.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Student s = Student.getInstance();
-                s.remove(Course.from(code.toString()));
-            }
+        deleteCross.setOnClickListener(v -> {
+            Student s = Taken.getInstance();
+            s.remove(Course.from(code.toString()));
         });
     }
 }
@@ -66,6 +65,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CourseHolder holder, int position) {
+        Log.d("CourseAdapter", String.valueOf(this.courses()));
         Course course = new ArrayList<>(this.courses()).get(position);
         holder.code.setText(course.code);
         List<String> pres = course.prereqs.stream().map(c -> c.code.toUpperCase(Locale.ROOT)).collect(Collectors.toList());

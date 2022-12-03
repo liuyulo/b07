@@ -11,12 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.b07.user.Student;
+import com.example.b07.user.Want;
+
 public class WantFragment extends Fragment {
 
-    Student s = Student.getInstance();
+    Student s = Want.getInstance();
 
     public WantFragment() {
-        s.adapter = new CourseAdapter(() -> s.wants);
+        s.adapter = new CourseAdapter(() -> s.courses);
     }
 
     @Override

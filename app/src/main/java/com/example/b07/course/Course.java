@@ -1,4 +1,4 @@
-package com.example.b07;
+package com.example.b07.course;
 
 import android.util.Log;
 
@@ -21,7 +21,7 @@ import java.util.Spliterator;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class Course implements Comparable<Course>{
+public class Course implements Comparable<Course> {
     public String code;
     public Set<Session> sessions;
     public Set<Course> prereqs;
@@ -35,7 +35,7 @@ public class Course implements Comparable<Course>{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Spliterator<DataSnapshot> iter = snapshot.getChildren().spliterator();
                 StreamSupport.stream(iter, false).map(DataSnapshot::getKey).map(Course::from).forEach(c -> cache.put(c.code, c));
-                adapter.notifyDataSetChanged();
+                if(adapter!=null)adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -46,7 +46,7 @@ public class Course implements Comparable<Course>{
 
     // todo set this to private when firebase is populated
     // then use `Course.from` in `Timeline.java`
-    Course(String code, Set<Session> sessions, Set<Course> prereqs) {
+    public Course(String code, Set<Session> sessions, Set<Course> prereqs) {
         this.code = code;
         this.sessions = sessions;
         this.prereqs = prereqs;

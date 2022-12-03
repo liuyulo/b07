@@ -1,10 +1,10 @@
-package com.example.b07;
+package com.example.b07.course;
 
 import androidx.annotation.NonNull;
 
 public class Semester {
-    int year;
-    Session session;
+    public int year;
+    public Session session;
 
     public Semester(int year, Session session) {
         this.year = year;

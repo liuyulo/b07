@@ -8,7 +8,7 @@
     tools:context=".TakenFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/taken"
+        android:id="@+id/takenn"
         android:layout_width="388dp"
         android:layout_height="497dp"
         app:layout_constraintEnd_toEndOf="parent"

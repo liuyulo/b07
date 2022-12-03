@@ -13,10 +13,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.b07.course.Course;
 import com.example.b07.databinding.FragmentTimelineBinding;
+import com.example.b07.user.Student;
+import com.example.b07.user.Taken;
+import com.example.b07.user.Want;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,9 +41,9 @@ class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Holder> {
         public final String session;
         public final List<String> codes;
 
-        public Item(String session, Set<Course> courses) {
-            this.session = session;
-            this.codes = courses.stream().map(c -> c.code).collect(Collectors.toList());
+        public Item(Map.Entry<String, Set<Course>> entry) {
+            session = entry.getKey();
+            codes = entry.getValue().stream().map(c -> c.code).collect(Collectors.toList());
         }
     }
 
@@ -46,8 +51,10 @@ class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Holder> {
 
     public TimelineAdapter() {
         Log.d("TimelineAdapter", "init");
-        courses = Student.getInstance().timeline().entrySet().stream().map(
-            e -> new Item(e.getKey(), e.getValue())
+        Taken t = Taken.getInstance();
+        Want w = Want.getInstance();
+        courses = Student.timeline(t.courses, w.courses, Student.semester).entrySet().stream().map(
+            Item::new
         ).collect(Collectors.toList());
     }
 
