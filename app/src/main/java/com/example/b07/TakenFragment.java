@@ -1,5 +1,6 @@
 package com.example.b07;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ public class TakenFragment extends Fragment {
         super.onStop();
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -55,7 +57,13 @@ public class TakenFragment extends Fragment {
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                s.add(Course.from(editTextInsert.getText().toString()));
+                String mInsert = editTextInsert.getText().toString();
+                if (mInsert.isEmpty() || mInsert.matches("")){
+                    return;
+                }
+
+                s.add(Course.from(mInsert));
+                editTextInsert.getText().clear();
                 s.adapter.notifyDataSetChanged();
             }
         });
@@ -63,7 +71,13 @@ public class TakenFragment extends Fragment {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                s.remove(Course.from(editTextDelete.getText().toString()));
+                String mDelete = editTextDelete.getText().toString();
+                if (mDelete.isEmpty() || mDelete.matches("")){
+                    return;
+                }
+
+                s.remove(Course.from(mDelete));
+                editTextDelete.getText().clear();
                 s.adapter.notifyDataSetChanged();
             }
         });

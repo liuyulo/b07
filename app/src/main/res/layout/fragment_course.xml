@@ -19,6 +19,7 @@
             android:textSize="30sp" />
 
         <Button
+            android:id="@+id/delete_cross"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:drawableStart="@android:drawable/ic_delete" />

@@ -9,59 +9,64 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/taken"
-        android:layout_width="382dp"
-        android:layout_height="570dp"
+        android:layout_width="388dp"
+        android:layout_height="497dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/fragment_course" />
 
-    <EditText
-        android:id="@+id/edittext_insert"
-        android:layout_width="78dp"
-        android:layout_height="44dp"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_delete"
-        app:layout_constraintTop_toBottomOf="@+id/taken"
-        app:layout_constraintVertical_bias="0.516"
-        tools:ignore="MissingConstraints,NotSibling"
-        android:layout_alignBottom="@+id/edittext_insert"
-        android:layout_toEndOf="@+id/edittext_insert" />
-
     <Button
-        android:id="@+id/btn_insert"
+        android:id="@+id/btn_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:text="Insert"
+        android:layout_marginEnd="29dp"
+        android:text="Delete"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/edittext_insert"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/edittext_delete"
         app:layout_constraintTop_toBottomOf="@+id/taken"
-        app:layout_constraintVertical_bias="0.491"
+        app:layout_constraintVertical_bias="0.492"
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/edittext_delete"
-        android:layout_width="71dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="34dp"
+        android:id="@+id/edittext_insert"
+        android:layout_width="80dp"
+        android:layout_height="45dp"
+        android:layout_alignBottom="@+id/edittext_insert"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="4dp"
+        android:layout_toEndOf="@+id/edittext_insert"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_insert"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taken"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintVertical_bias="0.496"
+        tools:ignore="MissingConstraints,NotSibling" />
 
     <Button
-        android:id="@+id/btn_delete"
+        android:id="@+id/btn_insert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:text="Delete"
+        android:layout_marginEnd="13dp"
+        android:text="Insert"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/edittext_delete"
         app:layout_constraintTop_toBottomOf="@+id/taken"
-        app:layout_constraintVertical_bias="0.561"
+        app:layout_constraintVertical_bias="0.492"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/edittext_delete"
+        android:layout_width="80dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="13dp"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_insert"
+        app:layout_constraintTop_toBottomOf="@+id/taken"
+        app:layout_constraintVertical_bias="0.496"
         tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
