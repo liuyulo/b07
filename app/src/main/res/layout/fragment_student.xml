@@ -21,8 +21,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/button_timeline"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0">
 
@@ -100,8 +101,6 @@
                     android:paddingHorizontal="10dp"
                     android:text="view wishlist"
                     android:textColor="#FFFFFF" />
-
-
             </LinearLayout>
         </LinearLayout>
 
@@ -123,8 +122,20 @@
             android:id="@+id/student_courses"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/fragment_course"
-            android:layout_marginHorizontal="10dp" />
-
+            android:layout_marginHorizontal="10dp"
+            tools:listitem="@layout/fragment_course" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button_timeline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:paddingHorizontal="10dp"
+        android:background="#10217E"
+        android:text="generate timeline"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

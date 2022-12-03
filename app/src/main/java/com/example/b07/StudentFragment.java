@@ -27,7 +27,7 @@ public class StudentFragment extends Fragment {
     private final Taken t = Taken.getInstance();
     private final Want w = Want.getInstance();
     private static final Map<Integer, Integer> nav = Map.of(
-//        R.id.button_timeline, R.id.action_Student_to_Timeline,
+        R.id.button_timeline, R.id.action_Student_to_Timeline
 //        R.id.button_taken, R.id.action_Student_to_Taken
     );
 
