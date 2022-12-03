@@ -155,11 +155,8 @@ public class LoginFragment extends Fragment {
         ref.child(name).child("last").setValue(formatter.format(now).replace('T', ' ').replaceFirst("\\.[0-9]+", ""));
 
         // go to main activity
-        if (!Account.privileged) {
-            NavHostFragment.findNavController(LoginFragment.this).navigate(
-                R.id.action_Login_to_Student
-            );
-        }
+        int nav = Account.privileged ? R.id.action_Login_to_Admin : R.id.action_Login_to_Student;
+        NavHostFragment.findNavController(LoginFragment.this).navigate(nav);
     }
 
     public void login(String name, String password) {

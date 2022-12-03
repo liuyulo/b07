@@ -3,6 +3,7 @@ package com.example.b07;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +26,23 @@ public class Course {
     public Set<Session> sessions;
     public Set<Course> prereqs;
     public static Map<String, Course> cache = new HashMap<>();
+    protected static RecyclerView.Adapter<?> adapter;
+
+    static {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("courses");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Spliterator<DataSnapshot> iter = snapshot.getChildren().spliterator();
+                StreamSupport.stream(iter, false).map(DataSnapshot::getKey).map(Course::from).forEach(c -> cache.put(c.code, c));
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
 
     // todo set this to private when firebase is populated
     // then use `Course.from` in `Timeline.java`
@@ -34,9 +52,9 @@ public class Course {
         this.prereqs = prereqs;
     }
 
-
     /**
      * Get course from the database (or cache)
+     *
      * @param code course code (case insensitive)
      * @return Course
      */
