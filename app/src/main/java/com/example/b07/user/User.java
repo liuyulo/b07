@@ -22,7 +22,7 @@ public abstract class User {
 
     public User() {
         this.courses = new TreeSet<>();
-        this.adapter = new CourseAdapter(() -> courses);
+        this.adapter = new CourseAdapter(() -> courses, "x", this::remove);
     }
 
     public abstract boolean add(Course course);

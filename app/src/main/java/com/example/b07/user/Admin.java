@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 import java.util.Spliterator;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -27,7 +28,7 @@ public class Admin extends User {
                 // recursively add courses to cache
                 courses = StreamSupport.stream(iter, false).map(
                     child -> Course.from(child.getKey())
-                ).collect(Collectors.toSet());
+                ).collect(Collectors.toCollection(TreeSet::new));
                 if (adapter != null) adapter.notifyDataSetChanged();
             }
 

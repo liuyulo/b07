@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -27,14 +28,14 @@ public abstract class Student extends User {
 
     protected Student(String name) {
         Student.name = name;
-        ref = FirebaseDatabase.getInstance().getReference("users").child(name).child(key());
-        ref.addValueEventListener(new ValueEventListener() {
+        ref = FirebaseDatabase.getInstance().getReference("users").child(name);
+        ref.child(key()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Spliterator<DataSnapshot> iter = snapshot.getChildren().spliterator();
                 courses = StreamSupport.stream(iter, false).map(
                     child -> Course.from(child.getValue(String.class))
-                ).collect(Collectors.toSet());
+                ).collect(Collectors.toCollection(TreeSet::new));
                 if (adapter != null) adapter.notifyDataSetChanged();
             }
 
