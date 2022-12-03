@@ -4,11 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/LoginFragment">
+
     <fragment
         android:id="@+id/TakenFragment"
         android:name="com.example.b07.TakenFragment"
         android:label="Courses Taken"
         tools:layout="@layout/fragment_taken" />
+
+    <fragment
+        android:id="@+id/CreateCourseFragment"
+        android:name="com.example.b07.CreateCourseFragment"
+        android:label="Create Course"
+        tools:layout="@layout/fragment_create_course" />
+    <fragment
+        android:id="@+id/AdminFragment"
+        android:name="com.example.b07.AdminFragment"
+        android:label="Admin Home"
+        tools:layout="@layout/fragment_admin" />
+    <fragment
+        android:id="@+id/WantFragment"
+        android:name="com.example.b07.WantFragment"
+        android:label="Courses Wanted"
+        tools:layout="@layout/fragment_want" />
     <fragment
         android:id="@+id/LoginFragment"
         android:name="com.example.b07.LoginFragment"
@@ -17,6 +34,9 @@
         <action
             android:id="@+id/action_Login_to_Student"
             app:destination="@id/StudentFragment" />
+        <action
+            android:id="@+id/action_Login_to_Admin"
+            app:destination="@id/AdminFragment" />
     </fragment>
 
     <fragment
@@ -33,6 +53,9 @@
         <action
             android:id="@+id/action_Student_to_Taken"
             app:destination="@id/TakenFragment" />
+        <action
+            android:id="@+id/action_Student_to_Want"
+            app:destination="@id/WantFragment" />
         <action
             android:id="@+id/action_Student_to_Timeline"
             app:destination="@id/TimelineFragment" />
