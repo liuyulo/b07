@@ -1,8 +1,9 @@
-package com.example.b07;
+package com.example.b07.course;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,23 +21,24 @@ import java.util.Spliterator;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class Course {
+public class Course implements Comparable<Course> {
     public String code;
+    public String name;
     public Set<Session> sessions;
     public Set<Course> prereqs;
     public static Map<String, Course> cache = new HashMap<>();
+    protected static RecyclerView.Adapter<?> adapter;
 
-    // todo set this to private when firebase is populated
-    // then use `Course.from` in `Timeline.java`
-    Course(String code, Set<Session> sessions, Set<Course> prereqs) {
+    public Course(String code, Set<Session> sessions, Set<Course> prereqs) {
         this.code = code;
+        this.name = "";
         this.sessions = sessions;
         this.prereqs = prereqs;
     }
 
-
     /**
      * Get course from the database (or cache)
+     *
      * @param code course code (case insensitive)
      * @return Course
      */
@@ -52,22 +54,17 @@ public class Course {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                DataSnapshot sessions = snapshot.child("sessions");
-                // (sessions should always exist tho)
-                if (sessions.exists()) {
-                    Spliterator<DataSnapshot> iter = sessions.getChildren().spliterator();
-                    course.sessions = StreamSupport.stream(iter, false).map(
-                        child -> Session.from(child.getValue(String.class))
-                    ).collect(Collectors.toSet());
-                }
-                DataSnapshot prereqs = snapshot.child("prereqs");
-                if (prereqs.exists()) {
-                    Spliterator<DataSnapshot> iter = snapshot.child("prereqs").getChildren().spliterator();
-                    // recursively add courses to cache
-                    course.prereqs = StreamSupport.stream(iter, false).map(
-                        child -> Course.from(child.getValue(String.class))
-                    ).collect(Collectors.toSet());
-                }
+                Spliterator<DataSnapshot> sessions = snapshot.child("sessions").getChildren().spliterator();
+                course.sessions = StreamSupport.stream(sessions, false).map(
+                    child -> Session.from(child.getValue(String.class))
+                ).collect(Collectors.toSet());
+
+                Spliterator<DataSnapshot> prereqs = snapshot.child("prereqs").getChildren().spliterator();
+                course.prereqs = StreamSupport.stream(prereqs, false).map(
+                    child -> Course.from(child.getValue(String.class))
+                ).collect(Collectors.toSet());
+
+                course.name = snapshot.child("name").getValue(String.class);
             }
 
             @Override
@@ -100,5 +97,11 @@ public class Course {
             ", sessions=" + sessions +
             ", prereqs=" + prereqs.stream().map(c -> c.code).collect(Collectors.toSet()) +
             '}';
+    }
+
+
+    @Override
+    public int compareTo(Course course) {
+        return this.code.compareTo(course.code);
     }
 }

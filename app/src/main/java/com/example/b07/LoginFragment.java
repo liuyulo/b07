@@ -18,6 +18,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.b07.databinding.FragmentLoginBinding;
+import com.example.b07.user.Account;
+import com.example.b07.user.Admin;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -70,6 +72,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Admin.getInstance();
         // check username and password validity
         TextWatcher callback = new TextWatcher() {
             @Override
@@ -155,11 +158,8 @@ public class LoginFragment extends Fragment {
         ref.child(name).child("last").setValue(formatter.format(now).replace('T', ' ').replaceFirst("\\.[0-9]+", ""));
 
         // go to main activity
-        if (!Account.privileged) {
-            NavHostFragment.findNavController(LoginFragment.this).navigate(
-                R.id.action_Login_to_Student
-            );
-        }
+        int nav = Account.privileged ? R.id.action_Login_to_Admin : R.id.action_Login_to_Student;
+        NavHostFragment.findNavController(LoginFragment.this).navigate(nav);
     }
 
     public void login(String name, String password) {
