@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -58,10 +59,13 @@ public class CreateFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 String t = s.toString();
+                List<Button> buttons = List.of(b.create, b.update, b.delete);
                 if (!t.matches("\\w+")) {
                     b.code.setError("Course code must be alphanumeric");
+                    buttons.forEach(b -> b.setEnabled(false));
                     return;
                 }
+                buttons.forEach(b -> b.setEnabled(true));
                 if (Course.cache.containsKey(t)) {
                     exists(course = Course.from(t));
                     b.create.setVisibility(View.GONE);
@@ -85,11 +89,12 @@ public class CreateFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                List.of(b.create, b.update).forEach(button -> button.setEnabled(true));
+                List<Button> buttons = List.of(b.create, b.update);
+                buttons.forEach(button -> button.setEnabled(true));
                 Optional<String> bad = prerequisites().filter(code -> !Course.cache.containsKey(code)).findFirst();
                 if (bad.isPresent()) {
                     b.prerequisite.setError(String.format("%s does not exist in database!", bad.get()));
-                    List.of(b.create, b.update).forEach(button -> button.setEnabled(false));
+                    buttons.forEach(button -> button.setEnabled(false));
                     return;
                 }
                 adapter.clear();
@@ -105,6 +110,7 @@ public class CreateFragment extends Fragment {
         b.prerequisite.setAdapter(adapter);
 
         b.create.setOnClickListener(this::create);
+        b.update.setOnClickListener(this::update);
         b.delete.setOnClickListener(v -> {
             a.remove(course);
             Toast.makeText(getContext(), "Deleted " + course.code, Toast.LENGTH_SHORT).show();
@@ -136,22 +142,36 @@ public class CreateFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
-    private void create(View view) {
-        // create new course if it has sessions
+    private Course course() {
+        // create course if has sessions
         Set<Session> sessions = this.sessions.entrySet().stream().filter(
             e -> e.getKey().isChecked()
         ).map(Map.Entry::getValue).collect(Collectors.toSet());
         if (sessions.size() == 0) {
             Toast.makeText(getContext(), "Please select at least one session!", Toast.LENGTH_SHORT).show();
-            return;
+            return null;
         }
 
         String code = b.code.getText().toString().strip();
         String name = b.name.getText().toString().strip();
         Set<Course> prereqs = prerequisites().map(Course::from).collect(Collectors.toSet());
-        Course course = new Course(code, name, sessions, prereqs);
-        a.add(course);
-        Course.cache.put(code, course);
-        Toast.makeText(getContext(), "Course " + code + " created!", Toast.LENGTH_SHORT).show();
+        return new Course(code, name, sessions, prereqs);
+    }
+
+    private void create(View view) {
+        Course c = course();
+        if (c == null) return;
+        a.add(c);
+        Course.cache.put(c.code, c);
+        Toast.makeText(getContext(), "Course " + c.code + " created!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void update(View view) {
+        Course c = course();
+        if (c == null) return;
+        a.update(c);
+        Course.cache.remove(c.code);
+        Course.cache.put(c.code, c);
+        Toast.makeText(getContext(), "Course " + c.code + " updated!", Toast.LENGTH_SHORT).show();
     }
 }

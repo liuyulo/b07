@@ -46,12 +46,7 @@ public class Admin extends User {
         return instance;
     }
 
-    /**
-     * @return false if course has prereqs not in db ohr course already in db
-     */
-    @Override
-    public boolean add(Course course) {
-        if (courses.contains(course)) return false;
+    public boolean override(Course course) {
         // if prereqs are not in db
         if (!course.prereqs.isEmpty() && !courses.containsAll(course.prereqs)) return false;
         ref.child(course.code).updateChildren(Map.of(
@@ -59,6 +54,20 @@ public class Admin extends User {
             "sessions", course.sessions.stream().map(Session::toString).collect(Collectors.toList())
         ));
         return true;
+    }
+
+    /**
+     * @return false if course has prereqs not in db ohr course already in db
+     */
+    @Override
+    public boolean add(Course course) {
+        if (courses.contains(course)) return false;
+        return override(course);
+    }
+
+    public boolean update(Course course) {
+        if (!courses.contains(course)) return false;
+        return override(course);
     }
 
     /**
