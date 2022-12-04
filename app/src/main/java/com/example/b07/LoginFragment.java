@@ -73,7 +73,6 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Admin.getInstance();
-        login("student","password");
         // check username and password validity
         TextWatcher callback = new TextWatcher() {
             @Override
