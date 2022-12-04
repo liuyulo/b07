@@ -6,26 +6,21 @@
     app:startDestination="@id/LoginFragment">
 
     <fragment
-        android:id="@+id/TakenFragment"
-        android:name="com.example.b07.TakenFragment"
-        android:label="Courses Taken"
-        tools:layout="@layout/fragment_taken" />
-
+        android:id="@+id/AddFragment"
+        android:name="com.example.b07.AddFragment"
+        android:label="Add Course"
+        tools:layout="@layout/fragment_add" />
     <fragment
         android:id="@+id/CreateCourseFragment"
         android:name="com.example.b07.CreateCourseFragment"
         android:label="Create Course"
         tools:layout="@layout/fragment_create_course" />
+
     <fragment
         android:id="@+id/AdminFragment"
         android:name="com.example.b07.AdminFragment"
         android:label="Admin Home"
         tools:layout="@layout/fragment_admin" />
-    <fragment
-        android:id="@+id/WantFragment"
-        android:name="com.example.b07.WantFragment"
-        android:label="Courses Wanted"
-        tools:layout="@layout/fragment_want" />
     <fragment
         android:id="@+id/LoginFragment"
         android:name="com.example.b07.LoginFragment"
@@ -51,11 +46,8 @@
         android:label="Homepage"
         tools:layout="@layout/fragment_student">
         <action
-            android:id="@+id/action_Student_to_Taken"
-            app:destination="@id/TakenFragment" />
-        <action
-            android:id="@+id/action_Student_to_Want"
-            app:destination="@id/WantFragment" />
+            android:id="@+id/action_Student_to_Add"
+            app:destination="@id/AddFragment" />
         <action
             android:id="@+id/action_Student_to_Timeline"
             app:destination="@id/TimelineFragment" />

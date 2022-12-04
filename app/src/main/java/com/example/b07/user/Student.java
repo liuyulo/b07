@@ -57,17 +57,17 @@ public abstract class Student extends User {
     @Override
     public boolean add(Course course) {
         // add course to db
-        if (courses.contains(course)) return false;
+        boolean b = courses.add(course);
         update(Stream.concat(courses.stream(), Stream.of(course)));
-        return true;
+        return b;
     }
 
     @Override
     public boolean remove(Course course) {
         // remove course from db
-        if (!courses.contains(course)) return false;
+        boolean b = courses.remove(course);
         update(courses.stream().filter(c -> !c.equals(course)));
-        return true;
+        return b;
     }
 
 
@@ -105,23 +105,6 @@ public abstract class Student extends User {
         return output;
     }
 
-    //    /**
-//     * add course to wish list
-//     */
-//    public boolean want(Course course) {
-//        if (wants.contains(course)) return false;
-//        updateWants(Stream.concat(wants.stream(), Stream.of(course)).collect(Collectors.toSet()));
-//        return true;
-//    }
-//
-//    public boolean unwant(Course course) {
-//        // remove course from db
-//        if (!wants.contains(course)) return false;
-//        updateWants(wants.stream().filter(c -> !c.equals(course)).collect(Collectors.toSet()));
-//        return true;
-//    }
-//
-//
 
     public static void main(String[] args) {
         Course a08 = new Course("CSCA08", Session.FW, new HashSet<>());

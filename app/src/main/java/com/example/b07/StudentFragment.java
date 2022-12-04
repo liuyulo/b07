@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.b07.user.Account;
+import com.example.b07.user.CourseType;
 import com.example.b07.user.Student;
 import com.example.b07.user.Taken;
 import com.example.b07.user.Want;
@@ -27,8 +28,8 @@ public class StudentFragment extends Fragment {
     private final Taken t = Taken.getInstance();
     private final Want w = Want.getInstance();
     private static final Map<Integer, Integer> nav = Map.of(
-        R.id.button_timeline, R.id.action_Student_to_Timeline
-//        R.id.button_taken, R.id.action_Student_to_Taken
+        R.id.button_timeline, R.id.action_Student_to_Timeline,
+        R.id.button_add, R.id.action_Student_to_Add
     );
 
 
@@ -44,24 +45,27 @@ public class StudentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((TextView) view.findViewById(R.id.student_name)).setText(Account.name);
-        TextView title = (TextView) view.findViewById(R.id.courses_title);
-        RecyclerView courses = view.findViewById(R.id.student_courses);
+        RecyclerView courses = view.findViewById(R.id.courses);
         courses.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        Button b = (Button) view.findViewById(R.id.switch_courses);
-        b.setOnClickListener(v -> setAdapter(v, courses, title));
-        setAdapter(b, courses, title);
+        Button b = view.findViewById(R.id.switch_courses);
+        b.setOnClickListener(v -> {
+            Student.current = Student.current.next();
+            setAdapter(view);
+        });
+        setAdapter(view);
         nav.forEach((button, action) -> view.findViewById(button).setOnClickListener(
             v -> NavHostFragment.findNavController(StudentFragment.this).navigate(action)
         ));
     }
 
-    private void setAdapter(View v, RecyclerView recycler, TextView title) {
+    private void setAdapter(View view) {
+        RecyclerView recycler = view.findViewById(R.id.courses);
         switch (Student.current) {
             case WISHLIST -> recycler.setAdapter(w.adapter);
             case TAKEN -> recycler.setAdapter(t.adapter);
         }
-        title.setText("courses " + Student.current.name());
-        ((Button) v).setText("view " + Student.current.next().name());
-        Student.current = Student.current.next();
+        ((Button) view.findViewById(R.id.button_add)).setText("add to " + Student.current.name());
+        ((TextView) view.findViewById(R.id.courses_title)).setText("courses " + Student.current.name());
+        ((Button) view.findViewById(R.id.switch_courses)).setText("view " + Student.current.next().name());
     }
 }

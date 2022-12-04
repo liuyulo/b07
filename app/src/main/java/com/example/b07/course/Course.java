@@ -29,24 +29,6 @@ public class Course implements Comparable<Course> {
     public static Map<String, Course> cache = new HashMap<>();
     protected static RecyclerView.Adapter<?> adapter;
 
-    static {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("courses");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Spliterator<DataSnapshot> iter = snapshot.getChildren().spliterator();
-                StreamSupport.stream(iter, false).map(DataSnapshot::getKey).map(Course::from).forEach(c -> cache.put(c.code, c));
-                if (adapter != null) adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-    }
-
-    // todo set this to private when firebase is populated
-    // then use `Course.from` in `Timeline.java`
     public Course(String code, Set<Session> sessions, Set<Course> prereqs) {
         this.code = code;
         this.name = "";
