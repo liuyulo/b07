@@ -80,7 +80,7 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/add_course"
+                    android:id="@+id/button_add"
                     android:layout_width="100dp"
                     android:layout_height="0dp"
                     android:layout_marginBottom="5dp"
@@ -119,7 +119,7 @@
             android:textSize="30sp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/student_courses"
+            android:id="@+id/courses"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="10dp"

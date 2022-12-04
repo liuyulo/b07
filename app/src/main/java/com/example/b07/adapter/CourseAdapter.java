@@ -42,8 +42,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseHolder> {
     public CourseAdapter(GetCourse courses) {
         this.courses = courses;
         button = "x";
-        action = c -> {
-        };
+        action = c -> false;
     }
 
     public CourseAdapter(GetCourse courses, String s, CourseAction a) {
@@ -71,7 +70,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseHolder> {
         List<String> pres = course.prereqs.stream().map(c -> c.code.toUpperCase(Locale.ROOT)).collect(Collectors.toList());
         holder.prereq.setText("Prerequisites: " + String.join(", ", pres));
         holder.action.setText(button);
-        holder.action.setOnClickListener(v -> action.run(course));
+        holder.action.setOnClickListener(v -> {
+            if (action.run(course)) {
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
