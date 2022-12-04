@@ -19,16 +19,16 @@
             android:textSize="30sp" />
 
         <Button
+            android:id="@+id/course_action"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:drawableStart="@android:drawable/ic_delete" />
-
+            android:text="x" />
     </LinearLayout>
 
     <TextView
+        android:id="@+id/course_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/course_title"
         android:text="this is a very long course title" />
 
     <TextView

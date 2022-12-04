@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
-    tools:context=".StudentFragment">
+    tools:context=".AdminFragment">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -21,9 +21,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/button_timeline"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0">
 
@@ -35,6 +35,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/profile"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:contentDescription="Background image of the student and professor view page"
@@ -49,7 +50,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/User_Welcome_Text"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints=""
                     android:fontFamily="@font/ubuntu_light"
@@ -60,12 +62,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/student_name"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/admin_name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:fontFamily="@font/ubuntu_bold"
-                    android:text="Student"
+                    android:text="Admin"
                     android:textAlignment="center"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
@@ -73,69 +75,34 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="10dp"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/button_add"
-                    android:layout_width="100dp"
-                    android:layout_height="0dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:background="#10217E"
-                    android:textColor="#FFFFFF"
-                    android:paddingHorizontal="10dp"
-                    android:text="add courses"
-                    android:textSize="15dp" />
-
-                <Button
-                    android:id="@+id/switch_courses"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="#10217E"
-                    android:paddingHorizontal="10dp"
-                    android:text="view wishlist"
-                    android:textColor="#FFFFFF" />
-            </LinearLayout>
+            <Button
+                android:id="@+id/create_course"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="create course"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/courses_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:autofillHints=""
             android:ems="10"
             android:fontFamily="@font/ubuntu_bold"
-            android:text="courses taken"
+            android:text="ALL COURSES"
             android:textAlignment="center"
-            android:textAllCaps="true"
             android:textColor="#FFFFFF"
             android:textSize="30sp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/courses"
+            android:id="@+id/courses_all"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="10dp"
             tools:listitem="@layout/fragment_course" />
-    </LinearLayout>
 
-    <Button
-        android:id="@+id/button_timeline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:paddingHorizontal="10dp"
-        android:background="#10217E"
-        android:text="generate timeline"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

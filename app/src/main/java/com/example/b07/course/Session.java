@@ -1,4 +1,4 @@
-package com.example.b07;
+package com.example.b07.course;
 
 import androidx.annotation.NonNull;
 
@@ -11,9 +11,9 @@ import java.util.Set;
 public enum Session {
     WINTER("Winter"), SUMMER("Summer"), FALL("Fall");
     // for debugging
-    static final Set<Session> FW = new HashSet<>(Arrays.asList(Session.FALL, Session.WINTER));
-    static final Set<Session> FS = new HashSet<>(Arrays.asList(Session.FALL, Session.SUMMER));
-    static final Set<Session> WS = new HashSet<>(Arrays.asList(Session.WINTER, Session.SUMMER));
+    public static final Set<Session> FW = new HashSet<>(Arrays.asList(Session.FALL, Session.WINTER));
+    public static final Set<Session> FS = new HashSet<>(Arrays.asList(Session.FALL, Session.SUMMER));
+    public static final Set<Session> WS = new HashSet<>(Arrays.asList(Session.WINTER, Session.SUMMER));
 
     private final String name;
     private static final Map<String, Session> map = new HashMap<>();
