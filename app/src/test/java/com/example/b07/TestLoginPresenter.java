@@ -1,11 +1,9 @@
 package com.example.b07;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertNull;
+
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -47,8 +45,10 @@ public class TestLoginPresenter {
     }
 
     @Test
-    public void test(){
-        MainActivity main = Mockito.mock(MainActivity.class);
-        return;
+    public void presenterCtor() {
+        LoginPresenter presenter = Mockito.mock(LoginPresenter.class);
+//        LoginPresenter presenter = new LoginPresenter(null, null);
+        assertNull(presenter.model);
+        assertNull(presenter.view);
     }
 }
