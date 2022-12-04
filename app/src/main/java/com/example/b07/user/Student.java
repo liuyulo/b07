@@ -105,23 +105,6 @@ public abstract class Student extends User {
         return output;
     }
 
-    //    /**
-//     * add course to wish list
-//     */
-//    public boolean want(Course course) {
-//        if (wants.contains(course)) return false;
-//        updateWants(Stream.concat(wants.stream(), Stream.of(course)).collect(Collectors.toSet()));
-//        return true;
-//    }
-//
-//    public boolean unwant(Course course) {
-//        // remove course from db
-//        if (!wants.contains(course)) return false;
-//        updateWants(wants.stream().filter(c -> !c.equals(course)).collect(Collectors.toSet()));
-//        return true;
-//    }
-//
-//
 
     public static void main(String[] args) {
         Course a08 = new Course("CSCA08", Session.FW, new HashSet<>());
