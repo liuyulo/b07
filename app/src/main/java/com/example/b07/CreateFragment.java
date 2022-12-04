@@ -96,7 +96,7 @@ public class CreateFragment extends Fragment {
         });
         List<String> codes = a.stream().map(c -> c.code).collect(Collectors.toList());
         b.code.setAdapter(new ArrayAdapter<>(getContext(), spinner, codes));
-        
+
         adapter = new ArrayAdapter<>(getContext(), spinner, codes.stream().filter(c -> !c.equals(course.code)).collect(Collectors.toList()));
         b.prerequisite.setTokenizer(new SpaceTokenizer());
         b.prerequisite.setAdapter(adapter);

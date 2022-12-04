@@ -2,6 +2,7 @@ package com.example.b07.user;
 
 import androidx.annotation.NonNull;
 
+import com.example.b07.adapter.CourseAdapter;
 import com.example.b07.course.Course;
 import com.example.b07.course.Session;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +21,7 @@ public class Admin extends User {
     private static Admin instance;
 
     private Admin() {
+        adapter = new CourseAdapter(() -> courses, null, this::remove);
         ref = FirebaseDatabase.getInstance().getReference("courses");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
