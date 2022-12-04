@@ -2,6 +2,7 @@ package com.example.b07.adapter;
 
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -39,12 +40,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseHolder> {
     String button;
     CourseAction action;
 
-    public CourseAdapter(GetCourse courses) {
-        this.courses = courses;
-        button = "x";
-        action = c -> false;
-    }
-
     public CourseAdapter(GetCourse courses, String s, CourseAction a) {
         this.courses = courses;
         this.button = s;
@@ -59,7 +54,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseHolder> {
     @Override
     public CourseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new CourseHolder(FragmentCourseBinding.inflate(inflater, parent, false));
+        var holder = new CourseHolder(FragmentCourseBinding.inflate(inflater, parent, false));
+        if (button == null) holder.action.setVisibility(View.GONE);
+        return holder;
     }
 
     @Override

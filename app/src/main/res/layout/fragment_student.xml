@@ -86,9 +86,9 @@
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:background="#10217E"
+                    android:textColor="#FFFFFF"
                     android:paddingHorizontal="10dp"
                     android:text="add courses"
-                    android:textColor="#FFFFFF"
                     android:textSize="15dp" />
 
                 <Button
