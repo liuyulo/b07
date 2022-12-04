@@ -26,12 +26,19 @@ public class Course implements Comparable<Course> {
     public String name;
     public Set<Session> sessions;
     public Set<Course> prereqs;
-    public static Map<String, Course> cache = new HashMap<>();
+    public final static Map<String, Course> cache = new HashMap<>();
     protected static RecyclerView.Adapter<?> adapter;
 
     public Course(String code, Set<Session> sessions, Set<Course> prereqs) {
         this.code = code;
         this.name = "";
+        this.sessions = sessions;
+        this.prereqs = prereqs;
+    }
+
+    public Course(String code, String name, Set<Session> sessions, Set<Course> prereqs) {
+        this.code = code;
+        this.name = name;
         this.sessions = sessions;
         this.prereqs = prereqs;
     }
