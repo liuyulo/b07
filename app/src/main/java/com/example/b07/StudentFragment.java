@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.b07.user.Account;
-import com.example.b07.user.CourseType;
 import com.example.b07.user.Student;
 import com.example.b07.user.Taken;
 import com.example.b07.user.Want;
@@ -27,6 +26,7 @@ public class StudentFragment extends Fragment {
     private static final String TAG = "Student";
     private final Taken t = Taken.getInstance();
     private final Want w = Want.getInstance();
+    private final Account acc = Account.getInstance();
     private static final Map<Integer, Integer> nav = Map.of(
         R.id.button_timeline, R.id.action_Student_to_Timeline,
         R.id.button_add, R.id.action_Student_to_Add
@@ -44,7 +44,7 @@ public class StudentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((TextView) view.findViewById(R.id.student_name)).setText(Account.name);
+        ((TextView) view.findViewById(R.id.student_name)).setText(acc.name);
         RecyclerView courses = view.findViewById(R.id.courses);
         courses.setLayoutManager(new LinearLayoutManager(view.getContext()));
         Button b = view.findViewById(R.id.switch_courses);

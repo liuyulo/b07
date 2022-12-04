@@ -17,7 +17,8 @@ import com.example.b07.user.Account;
 import com.example.b07.user.Admin;
 
 public class AdminFragment extends Fragment {
-    Admin a = Admin.getInstance();
+    final Admin a = Admin.getInstance();
+    final Account acc = Account.getInstance();
 
     public AdminFragment() {
     }
@@ -30,7 +31,7 @@ public class AdminFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((TextView) view.findViewById(R.id.admin_name)).setText(Account.name);
+        ((TextView) view.findViewById(R.id.admin_name)).setText(acc.name);
         RecyclerView recycler = view.findViewById(R.id.courses_all);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recycler.setAdapter(a.adapter);

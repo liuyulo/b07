@@ -10,7 +10,7 @@ public class Taken extends Student {
     }
 
     public static Taken getInstance() {
-        String name = Account.name;
+        String name = Account.getInstance().name;
         if (instance == null || !Objects.equals(Student.name, name)) instance = new Taken(name);
         return instance;
     }
