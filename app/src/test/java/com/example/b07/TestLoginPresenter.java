@@ -3,52 +3,60 @@ package com.example.b07;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import org.junit.Test;
+import androidx.fragment.app.Fragment;
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
+import com.example.b07.user.Account;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
+@RunWith(MockitoJUnitRunner.class)
 public class TestLoginPresenter {
+    @Mock
+    Account model;
+    @Mock
+    Fragment view;
+    LoginPresenter p;
+
+    @Before
+    public void setup() {
+        p = new LoginPresenter(view, model);
+    }
+
     @Test
     public void encryptSHA256() {
-        assertEquals(LoginPresenter.sha256("password"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8");
+        String sha = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
+        assertEquals(p.sha256("password"), sha);
     }
 
     @Test
     public void encryptNoAlg() {
-        assertEquals(LoginPresenter.encrypt("password", "nope"), "");
+        assertEquals(p.encrypt("password", "nope"), "");
     }
 
     @Test
     public void badUsername() {
-        assertEquals(LoginPresenter.checkUsername(""), LoginPresenter.USERNAME_EMPTY);
-        assertEquals(LoginPresenter.checkUsername(" startswith"), LoginPresenter.USERNAME_STARTS_WHITESPACE);
-        assertEquals(LoginPresenter.checkPassword("endswith "), LoginPresenter.USERNAME_ENDS_WHITESPACE);
+        assertEquals(p.checkUsername(""), LoginPresenter.USERNAME_EMPTY);
+        assertEquals(p.checkUsername(" startswith"), LoginPresenter.USERNAME_STARTS_WHITESPACE);
+        assertEquals(p.checkUsername("endswith "), LoginPresenter.USERNAME_ENDS_WHITESPACE);
     }
 
 
     @Test
     public void goodUsername() {
-        assertEquals(LoginPresenter.checkUsername("15 points please"), "");
+        assertNull(p.checkUsername("15 points please"));
     }
 
     @Test
     public void badPassword() {
-        assertEquals(LoginPresenter.checkPassword("n".repeat(LoginPresenter.N - 1)), LoginPresenter.PASSWORD_TOO_SHORT);
+        assertEquals(p.checkPassword("n".repeat(LoginPresenter.N - 1)), LoginPresenter.PASSWORD_TOO_SHORT);
     }
 
     @Test
     public void goodPassword() {
-        assertEquals(LoginPresenter.checkPassword("owo"), "");
-    }
-
-    @Test
-    public void presenterCtor() {
-        LoginPresenter presenter = Mockito.mock(LoginPresenter.class);
-//        LoginPresenter presenter = new LoginPresenter(null, null);
-        assertNull(presenter.model);
-        assertNull(presenter.view);
+        assertNull(p.checkPassword("n".repeat(LoginPresenter.N)));
     }
 }
