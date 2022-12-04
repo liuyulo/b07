@@ -46,8 +46,8 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String name = presenter.checkUsername(username());
-                String pass = presenter.checkPassword(password());
+                String name = LoginPresenter.checkUsername(username());
+                String pass = LoginPresenter.checkPassword(password());
                 boolean enabled = name == null && pass == null;
                 if (name != null) b.username.setError(name);
                 if (pass != null) b.password.setError(pass);
