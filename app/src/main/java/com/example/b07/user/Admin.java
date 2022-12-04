@@ -51,8 +51,9 @@ public class Admin extends User {
      */
     @Override
     public boolean add(Course course) {
+        if (courses.contains(course)) return false;
         // if prereqs are not in db
-        if (courses.contains(course) || !courses.containsAll(course.prereqs)) return false;
+        if (!course.prereqs.isEmpty() && !courses.containsAll(course.prereqs)) return false;
         ref.child(course.code).updateChildren(Map.of(
             "prereqs", course.prereqs.stream().map(c -> c.code).collect(Collectors.toList()),
             "sessions", course.sessions.stream().map(Session::toString).collect(Collectors.toList())

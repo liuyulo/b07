@@ -13,7 +13,7 @@
     <fragment
         android:id="@+id/CreateFragment"
         android:name="com.example.b07.CreateFragment"
-        android:label="Create Course"
+        android:label="Create or Update Course"
         tools:layout="@layout/fragment_create" />
 
     <fragment

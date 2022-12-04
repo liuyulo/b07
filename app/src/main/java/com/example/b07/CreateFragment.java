@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CreateFragment extends Fragment {
     final Admin a = Admin.getInstance();
@@ -84,11 +85,8 @@ public class CreateFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String[] t = s.toString().strip().split(" ");
                 List.of(b.create, b.update).forEach(button -> button.setEnabled(true));
-                Optional<String> bad = Arrays.stream(t).filter(code -> !code.isEmpty()).filter(
-                    code -> !Course.cache.containsKey(code)
-                ).findFirst();
+                Optional<String> bad = prerequisites().filter(code -> !Course.cache.containsKey(code)).findFirst();
                 if (bad.isPresent()) {
                     b.prerequisite.setError(String.format("%s does not exist in database!", bad.get()));
                     List.of(b.create, b.update).forEach(button -> button.setEnabled(false));
@@ -107,18 +105,22 @@ public class CreateFragment extends Fragment {
         b.prerequisite.setAdapter(adapter);
 
         b.create.setOnClickListener(this::create);
+        b.delete.setOnClickListener(v -> {
+            a.remove(course);
+            Toast.makeText(getContext(), "Deleted " + course.code, Toast.LENGTH_SHORT).show();
+        });
     }
 
     private List<String> dropdown(Course course) {
         // autocomplete selections for prerequisites
-        Set<String> codes = Arrays.stream(prerequisites()).collect(Collectors.toSet());
+        Set<String> codes = prerequisites().collect(Collectors.toSet());
         return a.stream().map(c -> c.code).filter(code -> !code.equals(course.code)).filter(
             code -> !codes.contains(code)
         ).collect(Collectors.toList());
     }
 
-    private String[] prerequisites() {
-        return b.prerequisite.getText().toString().strip().split(" ");
+    private Stream<String> prerequisites() {
+        return Arrays.stream(b.prerequisite.getText().toString().strip().split(" ")).filter(t -> !t.isEmpty());
     }
 
     private void exists(Course course) {
@@ -146,7 +148,7 @@ public class CreateFragment extends Fragment {
 
         String code = b.code.getText().toString().strip();
         String name = b.name.getText().toString().strip();
-        Set<Course> prereqs = Arrays.stream(b.prerequisite.getText().toString().strip().split(" ")).map(Course::from).collect(Collectors.toSet());
+        Set<Course> prereqs = prerequisites().map(Course::from).collect(Collectors.toSet());
         Course course = new Course(code, name, sessions, prereqs);
         a.add(course);
         Course.cache.put(code, course);
