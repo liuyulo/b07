@@ -15,9 +15,9 @@ public class Account {
     public String name;
     public static Account instance;
     public boolean privileged;
-    public static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
-    public static Welcome welcome;
-    public static SendToast toast;
+    public DatabaseReference ref;
+    public Welcome welcome;
+    public SendToast toast;
 
     public interface SendToast {
         void run(String message);
@@ -27,11 +27,18 @@ public class Account {
         void run(String name);
     }
 
-    private Account() {
+    private Account(DatabaseReference ref) {
+        this.ref = ref;
     }
 
     public static Account getInstance() {
-        if (instance == null) instance = new Account();
+        if (instance == null)
+            instance = new Account(FirebaseDatabase.getInstance().getReference("users"));
+        return instance;
+    }
+
+    public static Account getInstance(DatabaseReference ref) {
+        if (instance == null) instance = new Account(ref);
         return instance;
     }
 
@@ -44,26 +51,26 @@ public class Account {
     //move to model
     public static void login(String name, String encrypted) {
         instance.name = name;
-        DatabaseReference user = ref.child(name);
+        DatabaseReference user = instance.ref.child(name);
         user.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Object u = snapshot.getValue();
                 // check existence
                 if (u == null) {
-                    toast.run("User " + name + " does not exist!");
+                    instance.toast.run("User " + name + " does not exist!");
                     return;
                 }
                 // check password
                 String hash = snapshot.child("passwd").getValue(String.class);
                 if (!Objects.equals(encrypted, hash)) {
-                    toast.run("Incorrect password!");
+                    instance.toast.run("Incorrect password!");
                     return;
                 }
 
                 // check privileged
                 instance.privileged = Boolean.TRUE.equals(snapshot.child("privileged").getValue(Boolean.class));
-                welcome.run(name);
+                instance.welcome.run(name);
             }
 
             @Override
@@ -78,18 +85,18 @@ public class Account {
     public static void register(String name, String encrypted) {
         instance.name = name;
         instance.privileged = false;
-        DatabaseReference user = ref.child(name);
+        DatabaseReference user = instance.ref.child(name);
         user.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    toast.run("User " + name + " already exists!");
+                    instance.toast.run("User " + name + " already exists!");
                     return;
                 }
                 user.updateChildren(Map.of(
                     "passwd", encrypted, "privileged", false, "courses", Map.of()
                 ));
-                welcome.run(name);
+                instance.welcome.run(name);
             }
 
             @Override
