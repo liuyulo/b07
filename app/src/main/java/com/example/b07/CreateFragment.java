@@ -22,6 +22,7 @@ import com.example.b07.user.Admin;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -83,25 +84,41 @@ public class CreateFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String[] t = s.toString().split(" ");
+                String[] t = s.toString().strip().split(" ");
                 List.of(b.create, b.update).forEach(button -> button.setEnabled(true));
-                for (var code : t) {
-                    if (!Course.cache.containsKey(code)) {
-                        b.prerequisite.setError(String.format("%s does not exist in database!", code));
-                        List.of(b.create, b.update).forEach(button -> button.setEnabled(false));
-                        return;
-                    }
+                Optional<String> bad = Arrays.stream(t).filter(code -> !code.isEmpty()).filter(
+                    code -> !Course.cache.containsKey(code)
+                ).findFirst();
+                if (bad.isPresent()) {
+                    b.prerequisite.setError(String.format("%s does not exist in database!", bad.get()));
+                    List.of(b.create, b.update).forEach(button -> button.setEnabled(false));
+                    return;
                 }
+                adapter.clear();
+                adapter.addAll(dropdown(course));
+                adapter.notifyDataSetChanged();
             }
         });
         List<String> codes = a.stream().map(c -> c.code).collect(Collectors.toList());
         b.code.setAdapter(new ArrayAdapter<>(getContext(), spinner, codes));
 
-        adapter = new ArrayAdapter<>(getContext(), spinner, codes.stream().filter(c -> !c.equals(course.code)).collect(Collectors.toList()));
+        adapter = new ArrayAdapter<>(getContext(), spinner, dropdown(course));
         b.prerequisite.setTokenizer(new SpaceTokenizer());
         b.prerequisite.setAdapter(adapter);
 
         b.create.setOnClickListener(this::create);
+    }
+
+    private List<String> dropdown(Course course) {
+        // autocomplete selections for prerequisites
+        Set<String> codes = Arrays.stream(prerequisites()).collect(Collectors.toSet());
+        return a.stream().map(c -> c.code).filter(code -> !code.equals(course.code)).filter(
+            code -> !codes.contains(code)
+        ).collect(Collectors.toList());
+    }
+
+    private String[] prerequisites() {
+        return b.prerequisite.getText().toString().strip().split(" ");
     }
 
     private void exists(Course course) {
@@ -112,6 +129,8 @@ public class CreateFragment extends Fragment {
         }
         String prereqs = course.prereqs.stream().map(c -> c.code).collect(Collectors.joining(" "));
         b.prerequisite.setText(prereqs);
+        adapter.clear();
+        adapter.addAll(dropdown(course));
         adapter.notifyDataSetChanged();
     }
 
@@ -125,9 +144,9 @@ public class CreateFragment extends Fragment {
             return;
         }
 
-        String code = b.code.getText().toString();
-        String name = b.name.getText().toString();
-        Set<Course> prereqs = Arrays.stream(b.prerequisite.getText().toString().split(" ")).map(Course::from).collect(Collectors.toSet());
+        String code = b.code.getText().toString().strip();
+        String name = b.name.getText().toString().strip();
+        Set<Course> prereqs = Arrays.stream(b.prerequisite.getText().toString().strip().split(" ")).map(Course::from).collect(Collectors.toSet());
         Course course = new Course(code, name, sessions, prereqs);
         a.add(course);
         Course.cache.put(code, course);
