@@ -44,12 +44,14 @@ public class StudentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Student.current = CourseType.TAKEN;
         ((TextView) view.findViewById(R.id.student_name)).setText(Account.name);
         RecyclerView courses = view.findViewById(R.id.courses);
         courses.setLayoutManager(new LinearLayoutManager(view.getContext()));
         Button b = view.findViewById(R.id.switch_courses);
-        b.setOnClickListener(v -> setAdapter(view));
+        b.setOnClickListener(v -> {
+            Student.current = Student.current.next();
+            setAdapter(view);
+        });
         setAdapter(view);
         nav.forEach((button, action) -> view.findViewById(button).setOnClickListener(
             v -> NavHostFragment.findNavController(StudentFragment.this).navigate(action)
@@ -65,6 +67,5 @@ public class StudentFragment extends Fragment {
         ((Button) view.findViewById(R.id.button_add)).setText("add to " + Student.current.name());
         ((TextView) view.findViewById(R.id.courses_title)).setText("courses " + Student.current.name());
         ((Button) view.findViewById(R.id.switch_courses)).setText("view " + Student.current.next().name());
-        Student.current = Student.current.next();
     }
 }

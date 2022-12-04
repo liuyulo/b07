@@ -57,17 +57,17 @@ public abstract class Student extends User {
     @Override
     public boolean add(Course course) {
         // add course to db
-        if (courses.contains(course)) return false;
+        boolean b = courses.add(course);
         update(Stream.concat(courses.stream(), Stream.of(course)));
-        return true;
+        return b;
     }
 
     @Override
     public boolean remove(Course course) {
         // remove course from db
-        if (!courses.contains(course)) return false;
+        boolean b = courses.remove(course);
         update(courses.stream().filter(c -> !c.equals(course)));
-        return true;
+        return b;
     }
 
 
