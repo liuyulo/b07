@@ -10,7 +10,7 @@ public class Want extends Student {
     }
 
     public static Want getInstance() {
-        String name = Account.name;
+        String name = Account.getInstance().name;
         if (instance == null || !Objects.equals(Student.name, name)) instance = new Want(name);
         return instance;
     }

@@ -1,10 +1,12 @@
 package com.example.b07;
 
-import android.util.Log;
+import android.content.Context;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
+import com.example.b07.user.Account;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -16,29 +18,23 @@ import java.time.format.DateTimeFormatter;
 public class LoginPresenter {
 
     Fragment view;
+    Account model;
 
-    public LoginPresenter(Fragment view) {
+    public LoginPresenter(Fragment view, Account model) {
         this.view = view;
-
-        Account.toast = message ->{
-            var context = view.getContext();
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-        };
-
+        this.model = model;
+        Account.toast = message -> Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
         Account.welcome = name -> {
-            var context = view.getContext();
+            Context context = view.getContext();
             Toast.makeText(context, "Welcome " + name + "!", Toast.LENGTH_SHORT).show();
             // update last seen
             OffsetDateTime now = OffsetDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
-            LoginFragment.ref.child(name).child("last").setValue(formatter.format(now).replace('T', ' ').replaceFirst("\\.[0-9]+", ""));
+            Account.ref.child(name).child("last").setValue(formatter.format(now).replace('T', ' ').replaceFirst("\\.[0-9]+", ""));
 
             // go to main activity
-            if (!Account.privileged) {
-                NavHostFragment.findNavController(view).navigate(
-                        R.id.action_Login_to_Student
-                );
-            }
+            int nav = this.model.privileged ? R.id.action_Login_to_Admin : R.id.action_Login_to_Student;
+            NavHostFragment.findNavController(view).navigate(nav);
         };
     }
 
@@ -50,6 +46,7 @@ public class LoginPresenter {
         }
         return null;
     }
+
     //move to presenter
     String checkUsername(String username) {
         if (username.trim().length() == 0) {
