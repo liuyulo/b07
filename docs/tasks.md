@@ -24,3 +24,19 @@
 - Designing the UI of the app
   - added and designed the majority of the view design seen by the users using XML files and Constraint Layout
   - set constraints for all the elements
+
+## Jiaming Lu
+- Student: Delete Taken Courses
+  - for each course listed, add a delete button that deletes it from taken
+
+- Student Courses
+  - User will have a field called Set<Courses> courses and it’s automatically updated when db changes
+     the behavior changes depending on Student or Admin
+  - Student adds and removes courses from users[name].courses in firebase
+  - Admin adds and removes courses from courses in firebase
+  - When a user is loggin, the instance should listen to courses in firebase for changes
+- Admin Courses
+  - Business logic for admin to add/remove/view courses
+
+
+
