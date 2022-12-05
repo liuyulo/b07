@@ -18,7 +18,6 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public abstract class Student extends User {
@@ -32,8 +31,8 @@ public abstract class Student extends User {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Spliterator<DataSnapshot> iter = snapshot.getChildren().spliterator();
                 courses = StreamSupport.stream(iter, false).map(
-                    child -> Course.from(child.getValue(String.class))
-                ).collect(Collectors.toCollection(TreeSet::new));
+                    child -> child.getValue(String.class)
+                ).map(Course::from).collect(Collectors.toCollection(TreeSet::new));
                 if (adapter != null) adapter.notifyDataSetChanged();
             }
 

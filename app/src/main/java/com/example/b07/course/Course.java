@@ -61,6 +61,10 @@ public class Course implements Comparable<Course> {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()) {
+                    course.code = null;
+                    return;
+                }
                 Spliterator<DataSnapshot> sessions = snapshot.child("sessions").getChildren().spliterator();
                 course.sessions = StreamSupport.stream(sessions, false).map(
                     child -> Session.from(child.getValue(String.class))
