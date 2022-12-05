@@ -8,18 +8,19 @@
 
 ## Leon Lee
 
-- create a CreateFragment and allow user to input these values
+- Worked on the "create-course" fragment to allow admins to add new courses to the data base
   - enter new course code
   - enter new course name
   - choose sessions
   - choose prereqs
+  - reading and writing to firebase
 
 - Refactoring code to fit the MVP model
-  -moved existing code to more appropriate classes
-    -create classes if there weren't previosly existing ones fit 
+  - rewriting code and moving code to more appropriate classes
+   - create classes if there weren't previously existing ones that are fit
 
 - Design App Icon
 
 - Designing the UI of the app
-  -added the majority of the view design seen by the users using XML files and Constraint Layout
-  -set constraints for all the elements
+  - added and designed the majority of the view design seen by the users using XML files and Constraint Layout
+  - set constraints for all the elements
