@@ -4,14 +4,16 @@ import java.util.Objects;
 
 public class Want extends Student {
     private static Want instance;
+    private static String name;
 
-    private Want(String name) {
-        super(name);
+    private Want(String n) {
+        super(n);
+        name = n;
     }
 
     public static Want getInstance() {
-        String name = Account.getInstance().name;
-        if (instance == null || !Objects.equals(Student.name, name)) instance = new Want(name);
+        String n = Account.getInstance().name;
+        if (instance == null || !Objects.equals(name, n)) instance = new Want(n);
         return instance;
     }
 

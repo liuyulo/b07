@@ -4,14 +4,16 @@ import java.util.Objects;
 
 public class Taken extends Student {
     private static Taken instance;
+    private static String name;
 
-    private Taken(String name) {
-        super(name);
+    private Taken(String n) {
+        super(n);
+        name = n;
     }
 
     public static Taken getInstance() {
-        String name = Account.getInstance().name;
-        if (instance == null || !Objects.equals(Student.name, name)) instance = new Taken(name);
+        String n = Account.getInstance().name;
+        if (instance == null || !Objects.equals(name, n)) instance = new Taken(n);
         return instance;
     }
 
