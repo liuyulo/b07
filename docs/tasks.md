@@ -38,5 +38,19 @@
 - Admin Courses
   - Business logic for admin to add/remove/view courses
 
+## Hansen Lin
+  
+- Design and implement methods to generate timeline
+  - get taken list and want list
+  - generate the timeline
+  - show it in ui to users
 
+- Import data into firebase for early testing
+  - get all the course codes, name, session, prereqs
+
+- Taken list
+  - implement the view for students to add courses into taken list
+  - design and implement the method that put selected courses into firebase
+  - show the taken list to students
+  - sorted the list views
 
