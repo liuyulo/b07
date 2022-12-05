@@ -77,9 +77,9 @@
 
             <Button
                 android:id="@+id/create_course"
-                android:layout_width="100dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="create course"
+                android:text="create or edit course"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
