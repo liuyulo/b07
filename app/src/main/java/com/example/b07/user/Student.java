@@ -50,15 +50,15 @@ public abstract class Student extends User {
      */
     protected abstract String key();
 
-    protected void update(Stream<Course> courses) {
-        ref.updateChildren(Map.of(key(), courses.map(c -> c.code).collect(Collectors.toList())));
+    protected void update() {
+        ref.updateChildren(Map.of(key(), stream().map(c -> c.code).collect(Collectors.toList())));
     }
 
     @Override
     public boolean add(Course course) {
         // add course to db
         boolean b = courses.add(course);
-        update(Stream.concat(courses.stream(), Stream.of(course)));
+        update();
         return b;
     }
 
@@ -66,7 +66,7 @@ public abstract class Student extends User {
     public boolean remove(Course course) {
         // remove course from db
         boolean b = courses.remove(course);
-        update(courses.stream().filter(c -> !c.equals(course)));
+        update();
         return b;
     }
 
