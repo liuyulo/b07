@@ -8,11 +8,18 @@
 
 ## Leon Lee
 
-- lol
+- create a CreateFragment and allow user to input these values
+  - enter new course code
+  - enter new course name
+  - choose sessions
+  - choose prereqs
 
-## In Kim
+- Refactoring code to fit the MVP model
+  -moved existing code to more appropriate classes
+    -create classes if there weren't previosly existing ones fit 
 
-- Student: Delete Wishlist Courses
-- Student: Show Wish List
-- UI Component for User
-- Course class
+- Design App Icon
+
+- Designing the UI of the app
+  -added the majority of the view design seen by the users using XML files and Constraint Layout
+  -set constraints for all the elements
