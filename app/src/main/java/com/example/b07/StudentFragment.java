@@ -24,8 +24,6 @@ import java.util.Map;
 public class StudentFragment extends Fragment {
 
     private static final String TAG = "Student";
-    private final Taken t = Taken.getInstance();
-    private final Want w = Want.getInstance();
     private final Account acc = Account.getInstance();
     private static final Map<Integer, Integer> nav = Map.of(
         R.id.button_timeline, R.id.action_Student_to_Timeline,
@@ -59,6 +57,8 @@ public class StudentFragment extends Fragment {
     }
 
     private void setAdapter(View view) {
+        Taken t = Taken.getInstance();
+        Want w = Want.getInstance();
         RecyclerView recycler = view.findViewById(R.id.courses);
         switch (Student.current) {
             case WISHLIST -> recycler.setAdapter(w.adapter);
