@@ -51,7 +51,8 @@ public class Admin extends User {
         if (!course.prereqs.isEmpty() && !courses.containsAll(course.prereqs)) return false;
         ref.child(course.code).updateChildren(Map.of(
             "prereqs", course.prereqs.stream().map(c -> c.code).collect(Collectors.toList()),
-            "sessions", course.sessions.stream().map(Session::toString).collect(Collectors.toList())
+            "sessions", course.sessions.stream().map(Session::toString).collect(Collectors.toList()),
+                "name", course.name
         ));
         return true;
     }
