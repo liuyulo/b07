@@ -3,7 +3,7 @@ package com.example.b07.user;
 import java.util.Objects;
 
 public class Taken extends Student {
-    private static Taken instance;
+    public static Taken instance;
     private static String name;
 
     private Taken(String n) {

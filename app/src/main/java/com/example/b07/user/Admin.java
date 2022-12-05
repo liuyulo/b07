@@ -18,7 +18,7 @@ import java.util.stream.StreamSupport;
 
 public class Admin extends User {
     private static final String TAG = "Admin";
-    private static Admin instance;
+    public static Admin instance;
 
     private Admin() {
         adapter = new CourseAdapter(() -> courses, null, this::remove);

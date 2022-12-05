@@ -26,13 +26,14 @@ public abstract class Student extends User {
 
     protected Student(String name) {
         ref = FirebaseDatabase.getInstance().getReference("users").child(name);
-        ref.child(key()).addValueEventListener(new ValueEventListener() {
+        Admin a = Admin.getInstance();
+        ref.child(key()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Spliterator<DataSnapshot> iter = snapshot.getChildren().spliterator();
                 courses = StreamSupport.stream(iter, false).map(
                     child -> child.getValue(String.class)
-                ).map(Course::from).collect(Collectors.toCollection(TreeSet::new));
+                ).map(Course::from).filter(a::contains).collect(Collectors.toCollection(TreeSet::new));
                 if (adapter != null) adapter.notifyDataSetChanged();
             }
 

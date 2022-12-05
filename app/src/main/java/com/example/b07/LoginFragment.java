@@ -18,6 +18,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.b07.databinding.FragmentLoginBinding;
 import com.example.b07.user.Account;
 import com.example.b07.user.Admin;
+import com.example.b07.user.Taken;
+import com.example.b07.user.Want;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -37,6 +39,9 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Want.instance = null;
+        Taken.instance = null;
+        Admin.instance = null;
         Admin.getInstance();
 
         Account acc = Account.getInstance();
