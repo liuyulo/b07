@@ -53,4 +53,7 @@
   - design and implement the method that put selected courses into firebase
   - show the taken list to students
   - sorted the list views
+  
+- Admin create courses
+  - fixed it such that it can import name of courses into firebase
 
