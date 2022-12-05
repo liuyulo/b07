@@ -121,6 +121,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/courses"
             android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="10dp"
             tools:listitem="@layout/fragment_course" />
