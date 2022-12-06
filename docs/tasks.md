@@ -13,10 +13,16 @@
 ## In Kim
 
 - Student: Delete Wishlist Courses
+  - Added two button which adds and deletes the wanted course from wishlist
 - Student: Show Wish List
+  - Created a RecyclerView adapter which shows a wishlist courses on the app
 - UI Component for User
+  - Update UI when data is successfully pulled from firebase.
+  - Login to a user inside onViewCreated and show user’s name in a textbox.
 - Course class
-
+  - Create class called course which has String code, hashset<Course> prereqs, and hashset<string> sessions
+  - Initialize the data by getting the course code from param. and the hashsets from Firebase
+  
 ## Leon Lee
 
 - Worked on the "create-course" fragment to allow admins to add new courses to the data base
