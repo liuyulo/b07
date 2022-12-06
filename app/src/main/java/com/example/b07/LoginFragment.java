@@ -87,8 +87,8 @@ public class LoginFragment extends Fragment {
             return false;
         });
 
-        b.asStudent.setOnClickListener(v -> Account.login("student", presenter.sha256("password")));
-        b.asAdmin.setOnClickListener(v -> Account.login("admin", presenter.sha256("password")));
+//        b.asStudent.setOnClickListener(v -> Account.login("student", presenter.sha256("password")));
+//        b.asAdmin.setOnClickListener(v -> Account.login("admin", presenter.sha256("password")));
         b.login.setOnClickListener(v -> Account.login(username(), presenter.sha256(password())));
         b.register.setOnClickListener(v -> Account.register(username(), presenter.sha256(password())));
     }
