@@ -10,6 +10,13 @@
 - design navigation graph to connect the fragments other team members have created
 - provide starter code for Jiaming and Kim for course's and user's business logic
 
+## In Kim
+
+- Student: Delete Wishlist Courses
+- Student: Show Wish List
+- UI Component for User
+- Course class
+
 ## Leon Lee
 
 - Worked on the "create-course" fragment to allow admins to add new courses to the data base
