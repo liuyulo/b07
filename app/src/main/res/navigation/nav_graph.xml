@@ -3,26 +3,57 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/LoginFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.b07.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/AddFragment"
+        android:name="com.example.b07.AddFragment"
+        android:label="Add Course"
+        tools:layout="@layout/fragment_add" />
+    <fragment
+        android:id="@+id/CreateFragment"
+        android:name="com.example.b07.CreateFragment"
+        android:label="Create or Update Course"
+        tools:layout="@layout/fragment_create" />
 
+    <fragment
+        android:id="@+id/AdminFragment"
+        android:name="com.example.b07.AdminFragment"
+        android:label="Admin Home"
+        tools:layout="@layout/fragment_admin" >
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_Admin_to_Create"
+            app:destination="@id/CreateFragment"/>
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.b07.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
+        android:id="@+id/LoginFragment"
+        android:name="com.example.b07.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_Login_to_Student"
+            app:destination="@id/StudentFragment" />
+        <action
+            android:id="@+id/action_Login_to_Admin"
+            app:destination="@id/AdminFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/TimelineFragment"
+        android:name="com.example.b07.TimelineFragment"
+        android:label="Timeline"
+        tools:layout="@layout/fragment_timeline_list" />
+
+    <fragment
+        android:id="@+id/StudentFragment"
+        android:name="com.example.b07.StudentFragment"
+        android:label="Homepage"
+        tools:layout="@layout/fragment_student">
+        <action
+            android:id="@+id/action_Student_to_Add"
+            app:destination="@id/AddFragment" />
+        <action
+            android:id="@+id/action_Student_to_Timeline"
+            app:destination="@id/TimelineFragment" />
     </fragment>
 </navigation>
